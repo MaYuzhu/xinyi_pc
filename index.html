@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>管理后台</title>
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./layui/css/layui.css">
+    <link rel="stylesheet" href="./css/index.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_1497271_cq0z6lgrdui.css">
+</head>
+<body>
+    <div class="wrap">
+        <div class="header">
+            <div class="logo">
+                <img src="./img/logo.png" alt="">
+                <div class="line_short"></div>
+                <span>调研系统管理平台</span>
+            </div>
+            <div class="user">
+                <div class="message_tip">
+                    <i class="iconfont icon-lingdang"></i>
+                    <span>27</span>
+                </div>
+                <div class="avatar">
+                    <img src="./img/avatar.png" alt="">
+                </div>
+                <div class="user_name">
+                    <span>超管</span><i style="font-size: 10px;margin-left: 4px" class="iconfont icon-xia"></i>
+                    <div class="logout_wrap">
+                        <ul>
+                            <li><i class="iconfont icon-shezhi"></i><span>账号管理</span></li>
+                            <li><i class="iconfont icon-falvyijian"></i><span>预约管理</span></li>
+                            <li class="logout" style="border-top: 1px solid #eee"><i class="iconfont icon-tuichu4"></i><span>退出</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="content">
+            <div class="left">
+                <ul class="left_list">
+                    <li class="active">
+                        <i class="iconfont icon-wenjianjiafolder170" style="font-size:14px"></i><span>主题管理</span>
+                    </li>
+                    <li class='left_clock'>
+                        <i style="font-size:14px;margin-left:2px;" class="iconfont icon-qiandao"></i><span>打卡管理</span>
+                    </li>
+                    <li>
+                        <i style="font-size:14px;margin-left:2px;" class="iconfont icon-icon_pingce-mian"></i><span>测评管理</span>
+                    </li>
+                    <li class='left_gauge'>
+                        <i class="iconfont icon-liebiaocaidan"></i><span>量表管理</span>
+                    </li>
+                    <li class='left_users'>
+                        <i class="iconfont icon-user"></i><span>客户管理</span>
+                    </li>
+
+                    <li>
+                        <i class="iconfont icon-youxiang"></i><span>预约管理</span>
+                    </li>
+                    <li>
+                        <i class="iconfont icon-touxiang1"></i><span>管理员</span>
+                    </li>
+                </ul>
+            </div>
+            <div class="right">
+                <div class="box on zhuti">
+                    <h2>主题管理</h2>
+                    <div class="box_content zhuti_content">
+                        <div class="zhuti_top">
+                            <div class="zhuti_title">主题列表</div>
+                            <div class="zhuti_add"><span>+</span><p>添加</p></div>
+                        </div>
+                        <form class="layui-form layui-form-pane" action="">
+                        <div class="input_wrap">
+                            <div class="layui-form-item">
+                                <div class="layui-input-block zhuangtai">
+                                    <select name="interest" lay-filter="aihao">
+                                        <option value="">状态</option>
+                                        <option value='false'>启用</option>
+                                        <option value='true'>禁用</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="layui-input-block input_sousuo">
+                                    <i class="iconfont icon-sousuo"></i>
+                                    <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入搜索主题名称" class="layui-input">
+                                </div>
+                            </div>
+                            <div class="sousuo search">搜索</div>
+                        </div>
+                        </form>
+                        <table class="layui-hide" id="zhuti" lay-filter="zhuti"></table>
+
+                    </div>
+                </div>
+                <div class="box clockin">
+                    <h2>打卡管理</h2>
+                    <div class="box_content users_content">
+                        <div class="zhuti_top">
+                            <div class="zhuti_title">打卡列表</div>
+                            <!--<div class="zhuti_add"><span>+</span><p>添加</p></div>-->
+                        </div>
+                        <form class="layui-form layui-form-pane" action="">
+                            <div class="input_wrap">
+                                <div>
+                                    <div class="layui-input-block input_sousuo">
+                                        <i class="iconfont icon-sousuo"></i>
+                                        <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入搜索内容" class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="sousuo search">搜索</div>
+                            </div>
+                        </form>
+                        <table class="layui-hide" id="clock" lay-filter="clock"></table>
+                        <div id="clock_page"></div>
+                    </div>
+                </div>
+                <div class="box assessment">
+                    <h2>测评管理</h2>
+                    <div class="box_content assessment_content">
+
+                        <table class="layui-hide" id="assessment" lay-filter="assessment"></table>
+                        <div id="assessment_page"></div>
+                    </div>
+                </div>
+                <div class="box gauge">
+                    <h2>量表管理</h2>
+                    <div class="box_content gauge_content">
+                        <div class="gauge_top">
+                            <div class="gauge_title">量表列表</div>
+                            <div class="gauge_add"><span>+</span><p>添加</p></div>
+                        </div>
+                        <form class="layui-form layui-form-pane" action="">
+                            <div style="margin-bottom:30px" class="input_wrap gauge_input_wrap">
+                                <div>
+                                    <div class="layui-input-block input_sousuo">
+                                        <i class="iconfont icon-sousuo"></i>
+                                        <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入搜索量表名称" class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="sousuo">搜索</div>
+                            </div>
+                        </form>
+                        <table class="layui-hide" id="gauge" lay-filter="gauge"></table>
+                        <div id="gauge_page"></div>
+                    </div>
+                    <div class="box_content scale_details">
+                        <div class="scale_details_top">
+                            <p class="back_gauge_content"><i class="iconfont icon-icon-arrow-left2"></i><span>返回列表</span></p>
+                            <p><i class="iconfont icon-jia"></i><span>添加评分项</span></p>
+                        </div>
+                        <p  class="scale_details_title">（量表的名称）</p>
+                        <ul class="scale_details_content">
+                            <li>
+                                <div>
+                                    <p><span>1</span><span>.我害怕在别的孩子面前做没做过的事情。</span></p>
+                                    <ul class="scale_details_options">
+
+                                    </ul>
+                                </div>
+                                <div class="scale_details_options_edit">
+                                    <div><i class="iconfont icon-shanchu"></i></div>
+                                    <div><i class="iconfont icon-bianji"></i></div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="box users">
+                    <h2>客户管理</h2>
+                    <div class="box_content users_content">
+                        <div class="zhuti_top">
+                            <div class="zhuti_title">小程序用户</div>
+                            <!--<div class="zhuti_add"><span>+</span><p>添加</p></div>-->
+                        </div>
+                        <form class="layui-form layui-form-pane" action="">
+                            <div class="input_wrap">
+                                <div class="layui-form-item">
+                                    <div class="layui-input-block zhuangtai">
+                                        <select name="interest" lay-filter="aihao">
+                                            <option value="">会员类型</option>
+                                            <option value='false'>普通会员</option>
+                                            <option value='true'>VIP会员</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="layui-input-block input_sousuo">
+                                        <i class="iconfont icon-sousuo"></i>
+                                        <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入搜索内容" class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="sousuo search">搜索</div>
+                            </div>
+                        </form>
+                        <table class="layui-hide" id="users" lay-filter="users"></table>
+                        <div id="users_page"></div>
+                    </div>
+                </div>
+                <div class="box order">
+                    <h2>预约管理</h2>
+                    <div class="box_content users_content">
+
+                        <table class="layui-hide" id="order" lay-filter="order"></table>
+
+                    </div>
+                </div>
+                <div class="box admin">
+                    <h2>管理员</h2>
+                    <div class="box_content admin_content_top">
+                        <div><img src="./img/avatar.png" alt=""></div>
+                        <div>超管</div>
+                        <div>18800008888</div>
+                        <div>退出</div>
+                    </div>
+                    <div class="box_content admin_content">
+                        <div class="admin_top">
+                            <div class="admin_title">管理员列表</div>
+                            <div class="admin_add"><span>+</span><p>添加</p></div>
+                        </div>
+                        <form class="layui-form layui-form-pane" action="">
+                            <div class="input_wrap admin_input_wrap">
+                                <div>
+                                    <div class="layui-input-block input_sousuo">
+                                        <i class="iconfont icon-sousuo"></i>
+                                        <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入搜索用户名称" class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="sousuo">搜索</div>
+                            </div>
+                        </form>
+                        <table class="layui-hide" id="admin" lay-filter="admin"></table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="scale_edit_wrap">
+        <div class="scale_edit">
+            <p>修改量表</p>
+            <div><p>量表名称</p><input class="scale_edit_title" type="text"></div>
+            <div><p>量表说明</p><input class="scale_edit_description" type="text"></div>
+            <div><p>答题时间(分钟)</p><input οninput="value=value.replace(/[^\d]/g,'')" class="scale_edit_time" type="number"></div>
+            <div class="button_edit_scale">
+
+                <p class="button_edit_scale_confirm">确定</p>
+                <p class="button_edit_scale_close">取消</p>
+            </div>
+        </div>
+    </div>
+    <div class="scale_details_wrap" style="display: none">
+
+    </div>
+</body>
+<!--<script type="text/html" id="barDemo">
+    <div id="barEdit">
+         {{#  if(d.LAY_INDEX == 2){ }}
+             <a class="layui-btn layui-btn-xs del" lay-event="del">启用</a>
+         {{#  } }}
+         {{#  if(d.LAY_INDEX == 1){ }}
+             <a class="layui-btn layui-btn-xs del" lay-event="del">禁用</a>
+         {{#  } }}
+
+
+        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    </div>
+
+</script>-->
+<script type="text/html" id="barDemo">
+    <div id="barEdit">
+         {{#  if(d.disable == true){ }}
+             <a class="layui-btn layui-btn-xs del" lay-event="del">启用</a>
+         {{#  } }}
+         {{#  if(d.disable == false){ }}
+             <a class="layui-btn layui-btn-xs del" lay-event="del">禁用</a>
+         {{#  } }}
+
+
+        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    </div>
+
+</script>
+<script type="text/html" id="barUser">
+    <div id="barUserEdit">
+        {{#  if(d.disable == true){ }}
+                     <a class="layui-btn layui-btn-xs del" lay-event="del">启用</a>
+                 {{#  } }}
+                 {{#  if(d.disable == false){ }}
+                     <a class="layui-btn layui-btn-xs del" lay-event="del">禁止访问</a>
+                 {{#  } }}
+
+
+        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    </div>
+
+</script>
+<script type="text/html" id="barScale">
+    <div id="barScaleEdit">
+        {{#  if(d.disable == true){ }}
+                     <a class="layui-btn layui-btn-xs del" lay-event="del">启用</a>
+                 {{#  } }}
+                 {{#  if(d.disable == false){ }}
+                     <a class="layui-btn layui-btn-xs del" lay-event="del">禁用</a>
+                 {{#  } }}
+        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+        <a class="layui-btn layui-btn-xs" lay-event="details">详情</a>
+    </div>
+
+</script>
+
+
+<script src="./js/jquery-1.11.3.min.js"></script>
+<script src="./js/jquery.cookie.js"></script>
+<script src="./layui/layui.js"></script>
+<script src="./js/public.js"></script>
+<script src="./js/index.js"></script>
+<script src="./js/theme.js"></script>
+<script src="./js/users.js"></script>
+<script src="./js/clockin.js"></script>
+<script src="./js/scale.js"></script>
+<script>
+    layui.use(['form', 'layedit', 'laydate'], function(){
+        var form = layui.form
+            ,layer = layui.layer
+            ,layedit = layui.layedit
+            ,laydate = layui.laydate;
+        //表单取值
+        layui.$('#LAY-component-form-getval').on('click', function(){
+            var data = form.val('example');
+            alert(JSON.stringify(data));
+        });
+
+    });
+</script>
+
+</html>

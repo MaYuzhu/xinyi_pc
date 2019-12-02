@@ -1,0 +1,86 @@
+html, body{
+    width: 100%;
+    height: 100%;
+}
+.bg{
+    width: 100%;
+    height: 100%;
+    background: url("../img/login_bg.jpg");
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    background-size: cover;
+    min-height: 100%;
+    min-width: 1000px;
+}
+.container {
+    width: 270px;
+    background-color: rgba(255,244,255,.85);
+    padding: 15px 40px 50px;
+    border-radius: 3px;
+    margin-bottom: 20px;
+    border: 1px solid #eef0f1;
+    box-shadow: 0 15px 12px 0 rgba(32,33,36,.28);
+}
+.container .top {
+    text-align: center;
+}
+.container .top img{
+    width: 230px;
+}
+.user_wrap, .password_wrap{
+    height: 40px;
+    line-height: 40px;
+    position: relative;
+    font-size: 16px;
+    border: 1px solid #dcdfe6;
+    transition: border-color .2s cubic-bezier(.645,.045,.355,1);
+    background: white;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+}
+.user_wrap:hover, .password_wrap:hover{
+    border: 1px solid #adb0b7;
+}
+.login{
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    font-size: 16px;
+    border: 1px solid #ffbb29;
+    background: #ffbb29;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+input{
+    width: 200px;
+    height: 20px;
+    font-size: 12px;
+    border: none;
+}
+.text{
+    height: 14px;
+    color: #f56c6c;
+    margin: 5px 0;
+}
+.icon-user, .icon-mima{
+    margin: 0 5px 0 8px;
+    color: #C0C4CC;
+}
+.icon-guanbi, .icon-gou{
+    position: absolute;
+    right: 10px;
+}
+.icon-guanbi{
+    color: #f56c6c;
+}
+.icon-gou{
+    color: #67c23a;
+}
+.hidden{
+    display: none;
+}
