@@ -55,7 +55,7 @@ $(function () {
             type: 'POST',
             async: false,
             cache: false,
-            url: 'http://admin.sount.net/api/' + 'account/login',
+            url: 'https://api.anlanxinyi.com/admin/' + 'oauth/login',
             //data:JSON.stringify({username:data.username,password:data.password}),
             data:{username:data.username,password:data.password},
             dataType: 'json',
@@ -68,7 +68,8 @@ $(function () {
                 console.log(json)
                 if(json){
                     location.href="./index.html";
-                    $.cookie('username',json.username,{ path: '/'});
+                    //window.open("./index.html",'_blank')
+                    $.cookie('username',json.full_name,{ path: '/'});
                 }else{
                     $(".psd_message").html("帐号或密码错误")
                 }

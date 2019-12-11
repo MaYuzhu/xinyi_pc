@@ -1,6 +1,7 @@
 //全局变量、方法
 
-var url = 'http://admin.sount.net/api/'
+//var url = 'http://admin.sount.net/api/'
+var url = 'https://api.anlanxinyi.com/admin/'
 
 function getAjax(url, data, async, succFunc, errFunc) {
     $.ajax({

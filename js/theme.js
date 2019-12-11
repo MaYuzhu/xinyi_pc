@@ -40,20 +40,22 @@ $(function () {
                 //,height: 530
                 ,data: dataTheme.data
                 ,cols: [[
-                    {field:'title', width:'45%', title: '主题名称'}
-                    ,{field:'disable', width:'15%', templet: ZhuangTai,  title: '状态'}
+                    {field:'title', width:'35%', title: '主题名称'}
+                    ,{field:'publish_explain', width:'13%', templet:FabuZhuangTai,  title: '发布状态'} //templet: ZhuangTai,
+                    ,{field:'disable', width:'12%', templet:ZhuangTai,  title: '禁用状态'}
                     ,{field:'create_time', width:'25%', title: '创建时间'}
                     ,{fixed:'right',field:'priority', width: '15%', toolbar: '#barDemo', title: '操作'}
 
                 ]]
-                ,page: {
+                /*,page: {
                     layout: [ 'prev', 'page', 'next'] //自定义分页布局
                     ,theme: '#e6a825'
-                },
+                }*/
+                ,page:false,
                 skin: 'row', //表格风格
                 even: true, //隔行背景
                 //limits: [5, 10, 15], //显示
-                limit: 10 //每页默认显示的数量
+                //limit: 10     //每页默认显示的数量
             });
 
             //监听行工具事件
@@ -68,7 +70,7 @@ $(function () {
                             theme_id:data.theme_id,
                             disable:!data.disable
                         }
-                        getAjax(url+'theme/save',saveData,true,saveTheme,errFunc)
+                        getAjax(url+'theme/disable',saveData,true,saveTheme,errFunc)
                         layer.close(index);
                     });
                 } else if(obj.event === 'edit'){
@@ -81,7 +83,21 @@ $(function () {
                             theme_id:data.theme_id,
                             title:value
                         }
+                        if(!$.trim(saveData.title)){
+                            layer.msg('请输入主题名称')
+                            return false
+                        }
                         getAjax(url+'theme/save',saveData,true,saveTheme,errFunc)
+                        layer.close(index);
+                    });
+                } else if(obj.event === 'publish'){
+                    layer.confirm(`确定要${data.publish?' ':'发布'}吗？`,{btn: ['确定', '取消'],title:"提示"}, function(index){
+                        //obj.del();
+                        var saveData = {
+                            theme_id:data.theme_id,
+                            publish:!data.publish
+                        }
+                        getAjax(url+'theme/publish',saveData,true,publishTheme,errFunc)
                         layer.close(index);
                     });
                 }
@@ -98,9 +114,14 @@ $(function () {
             title: '添加主题',
             area: ['800px', '150px'] //自定义文本域宽高
         }, function(value, index, elem){
-            alert(value); //得到value
+            //console.log(value);  //得到value  $.trim(str)
+
             var saveData = {
                 title:value
+            }
+            if(!$.trim(saveData.title)){
+                layer.msg('请输入主题名称')
+                return false
             }
             getAjax(url+'theme/save',saveData,true,saveTheme,errFunc)
             layer.close(index);
@@ -110,7 +131,7 @@ $(function () {
     //搜索
     $('.search').click(function () {
         var disable = $('select[name=interest]').val()=='true'?true:$('select[name=interest]').val()=='false'?false:null
-        var title_like = $('.input_sousuo input').val()
+        var title_like = $('.zhuti .input_sousuo input').val()
         var searchData = {
             disable:disable,
             title_like:title_like
@@ -123,10 +144,22 @@ $(function () {
         var disable = data.disable;
         var btns = "";
         if (disable == true) {
-            btns += '<a class="" style="color:#ed6638">已禁用</a>';
+            btns += `<a class="" style="color:#ed6638">${data.disable_explain}</a>`;
         }
         if (disable == false) {
-            btns += '<a class="" style="color:#0b7c17">启用中</a>';
+            btns += `<a class="" style="color:#0b7c17">${data.disable_explain}</a>`;
+        }
+        return btns;
+    }
+
+    function FabuZhuangTai(data) {
+        var disable = data.publish;
+        var btns = "";
+        if (disable == true) {
+            btns += `<a class="" style="color:#0b7c17">${data.publish_explain}</a>`;
+        }
+        if (disable == false) {
+            btns += `<a class="" style="color:#dba41e">${data.publish_explain}</a>`;
         }
         return btns;
     }
@@ -136,4 +169,8 @@ $(function () {
         getAjax(url+'theme/search',{paging:false},true,getThemeList,errFunc)
     }
 
+    function publishTheme(json) {
+        console.log(json)
+        getAjax(url+'theme/search',{paging:false},true,getThemeList,errFunc)
+    }
 })

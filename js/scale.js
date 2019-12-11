@@ -50,6 +50,7 @@ $(function () {
         $('.scale_details').hide()
     })
 
+
     function pageScale() {
         getAjax(url+'scale/search',getScaleData,true,function (json) {
             totalSize = json.total_size
@@ -93,7 +94,7 @@ $(function () {
                     ,{field:'answer_time', width:'12%', title: '答题时间（分钟）'}
                     ,{field:'disable', width:'10%', templet: ZhuangTai,  title: '状态'}
                     ,{field:'create_time', width:'15%', title: '创建时间'}
-                    ,{fixed:'right',field:'priority', width: '15%', toolbar: '#barScale', title: '操作'}
+                    ,{fixed:'right',field:'priority', width: '20%', toolbar: '#barScale', title: '操作'}
 
                 ]]
                 /*,page: {
@@ -183,8 +184,8 @@ $(function () {
                                     </ul>
                                 </div>
                                 <div class="scale_details_options_edit">
-                                    <div><i class="iconfont icon-shanchu"></i></div>
-                                    <div><i class="iconfont icon-bianji"></i></div>
+                                    <div qu_id=${questionData[i].question_id}><i class="iconfont icon-shanchu"></i></div>
+                                    <div qu_id=${questionData[i].question_id}><i class="iconfont icon-bianji"></i></div>
                                 </div>
                             </li>`)
                 $('.scale_details_options').empty()
@@ -194,8 +195,50 @@ $(function () {
 
             }
         }
+        //编辑量表问题
+        $('.scale_details_options_edit>:nth-child(2)').click(function () {
+            $('.scale_details_edit_wrap').show()
+            var qu_id = $(this).attr('qu_id')
+            $('.button_edit_question_close').click(function () {
+                $('.scale_details_edit_wrap').hide()
+            })
+            $('.close_scale_details_edit').click(function () {
+                $('.button_edit_question_close').click()
+            })
+            getAjax(url+'question/get',{with_option:true,question_id:qu_id},true,getQuestion,errFunc)
+        })
 
     }
+
+    //获取问题详情
+    function getQuestion(json) {
+        //console.log(json)
+        if(json){
+            $('.scale_details_edit_title').val(json.content)
+            $('.scale_edit_options').empty()
+            for(var i=0;i<json.options.length;i++){
+                $('.scale_edit_options').append(`<li>
+                    <p>选项${i+1}</p>
+                    <p><input type="text" value=${json.options[i].content}></p>
+                    <p><input type="number"></p>
+                    <p><i class="iconfont icon-shanchu"></i></p>
+                </li>`)
+            }
+
+        }
+    }
+
+
+
+
+    $('.add_options_edit').click(function () {
+        $('.scale_edit_options').append(`<li>
+                    <p>选项1</p>
+                    <p><input type="text"></p>
+                    <p><input type="number"></p>
+                    <p><i class="iconfont icon-shanchu"></i></p>
+                </li>`)
+    })
 
 
 })

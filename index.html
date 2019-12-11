@@ -5,8 +5,12 @@
     <title>管理后台</title>
     <link rel="stylesheet" href="./css/reset.css">
     <link rel="stylesheet" href="./layui/css/layui.css">
-    <link rel="stylesheet" href="./css/index.css">
+
     <link rel="stylesheet" href="//at.alicdn.com/t/font_1497271_cq0z6lgrdui.css">
+
+    <link rel="stylesheet" href="./css/index.css">
+    <link rel="stylesheet" href="./css/track.css">
+    <link rel="stylesheet" href="./css/assessment.css">
 </head>
 <body>
     <div class="wrap">
@@ -45,7 +49,7 @@
                     <li class='left_clock'>
                         <i style="font-size:14px;margin-left:2px;" class="iconfont icon-qiandao"></i><span>打卡管理</span>
                     </li>
-                    <li>
+                    <li class='left_ass'>
                         <i style="font-size:14px;margin-left:2px;" class="iconfont icon-icon_pingce-mian"></i><span>测评管理</span>
                     </li>
                     <li class='left_gauge'>
@@ -58,7 +62,7 @@
                     <li>
                         <i class="iconfont icon-youxiang"></i><span>预约管理</span>
                     </li>
-                    <li>
+                    <li class='left_admin'>
                         <i class="iconfont icon-touxiang1"></i><span>管理员</span>
                     </li>
                 </ul>
@@ -97,20 +101,21 @@
                 </div>
                 <div class="box clockin">
                     <h2>打卡管理</h2>
-                    <div class="box_content users_content">
+                    <div class="box_content clock_content">
                         <div class="zhuti_top">
                             <div class="zhuti_title">打卡列表</div>
                             <!--<div class="zhuti_add"><span>+</span><p>添加</p></div>-->
                         </div>
                         <form class="layui-form layui-form-pane" action="">
-                            <div class="input_wrap">
+                            <div class="input_wrap" style="margin-bottom:30px">
                                 <div>
                                     <div class="layui-input-block input_sousuo">
                                         <i class="iconfont icon-sousuo"></i>
-                                        <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入搜索内容" class="layui-input">
+                                        <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入用户手机号" class="layui-input">
                                     </div>
                                 </div>
-                                <div class="sousuo search">搜索</div>
+                                <div class="sousuo search_clockin">搜索</div>
+                                <div class="sousuo search_add_clockin" style="display:none">新增</div>
                             </div>
                         </form>
                         <table class="layui-hide" id="clock" lay-filter="clock"></table>
@@ -119,10 +124,65 @@
                 </div>
                 <div class="box assessment">
                     <h2>测评管理</h2>
-                    <div class="box_content assessment_content">
-
+                    <div style="display: block" class="box_content assessment_content">
+                        <div class="gauge_top">
+                            <div class="gauge_title">测评列表</div>
+                        </div>
+                        <form class="layui-form layui-form-pane" action="">
+                            <div class="input_wrap" style="margin-bottom:30px">
+                                <div>
+                                    <div class="layui-input-block input_sousuo">
+                                        <i class="iconfont icon-sousuo"></i>
+                                        <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入用户手机号" class="layui-input">
+                                    </div>
+                                </div>
+                                <div class="sousuo search_ass">搜索</div>
+                            </div>
+                        </form>
                         <table class="layui-hide" id="assessment" lay-filter="assessment"></table>
                         <div id="assessment_page"></div>
+                    </div>
+                    <div style="display: none" class="box_content assessment_details">
+                        <div class="scale_details_top">
+                            <p class="back_ass_content"><i class="iconfont icon-icon-arrow-left2"></i><span>返回列表</span></p>
+                        </div>
+                        <p class="ass_details_title">（量表的名称）</p>
+                        <div class="ass_group_tab_wrap">
+                            <div>全部</div>
+                            <ul class="ass_group_tab">
+                                <li>分组1</li>
+                                <li>分组2</li>
+                            </ul>
+                        </div>
+                        <p class="ass_total_score"><span>总分: </span><span></span></p>
+                        <p class="ass_role"><span>答题角色: </span><span></span></p>
+                        <ul class="ass_total_score_group">
+
+                        </ul>
+                        <ul class="ass_group_content">
+                            <li>
+                                <ul class="ass_details_content">
+                                    <li>
+                                        <p>1.这是一个问题</p>
+                                        <ul class="ass_options">
+                                            <li><input type="radio"><text>从来这样</text></li>
+                                            <li><input type="radio"><text>从来不是</text></li>
+                                            <li><input type="radio"><text>有时这样</text></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <!--<ul class="ass_details_content">
+                            <li>
+                                <p>1.这是一个问题</p>
+                                <ul class="ass_options">
+                                    <li><input type="radio"><text>从来这样</text></li>
+                                    <li><input type="radio"><text>从来不是</text></li>
+                                    <li><input type="radio"><text>有时这样</text></li>
+                                </ul>
+                            </li>
+                        </ul>-->
                     </div>
                 </div>
                 <div class="box gauge">
@@ -176,8 +236,8 @@
                             <!--<div class="zhuti_add"><span>+</span><p>添加</p></div>-->
                         </div>
                         <form class="layui-form layui-form-pane" action="">
-                            <div class="input_wrap">
-                                <div class="layui-form-item">
+                            <div class="input_wrap" style="margin-bottom:20px;">
+                                <!--<div class="layui-form-item">
                                     <div class="layui-input-block zhuangtai">
                                         <select name="interest" lay-filter="aihao">
                                             <option value="">会员类型</option>
@@ -185,14 +245,14 @@
                                             <option value='true'>VIP会员</option>
                                         </select>
                                     </div>
-                                </div>
+                                </div>-->
                                 <div>
                                     <div class="layui-input-block input_sousuo">
                                         <i class="iconfont icon-sousuo"></i>
                                         <input type="text" name="title" lay-verify="title" autocomplete="off" placeholder="请输入搜索内容" class="layui-input">
                                     </div>
                                 </div>
-                                <div class="sousuo search">搜索</div>
+                                <div class="sousuo search_user">搜索</div>
                             </div>
                         </form>
                         <table class="layui-hide" id="users" lay-filter="users"></table>
@@ -212,7 +272,7 @@
                     <div class="box_content admin_content_top">
                         <div><img src="./img/avatar.png" alt=""></div>
                         <div>超管</div>
-                        <div>18800008888</div>
+                        <div class="user_name_show">18800008888</div>
                         <div>退出</div>
                     </div>
                     <div class="box_content admin_content">
@@ -221,7 +281,7 @@
                             <div class="admin_add"><span>+</span><p>添加</p></div>
                         </div>
                         <form class="layui-form layui-form-pane" action="">
-                            <div class="input_wrap admin_input_wrap">
+                            <div class="input_wrap admin_input_wrap" style="margin-bottom:30px">
                                 <div>
                                     <div class="layui-input-block input_sousuo">
                                         <i class="iconfont icon-sousuo"></i>
@@ -232,7 +292,7 @@
                             </div>
                         </form>
                         <table class="layui-hide" id="admin" lay-filter="admin"></table>
-
+                        <div id="admin_page"></div>
                     </div>
                 </div>
             </div>
@@ -247,13 +307,87 @@
             <div><p>答题时间(分钟)</p><input οninput="value=value.replace(/[^\d]/g,'')" class="scale_edit_time" type="number"></div>
             <div class="button_edit_scale">
 
-                <p class="button_edit_scale_confirm">确定</p>
+                <p class="button_scale_confirm button_edit_scale_confirm">确定</p>
                 <p class="button_edit_scale_close">取消</p>
             </div>
         </div>
     </div>
-    <div class="scale_details_wrap" style="display: none">
+    <div class="scale_details_edit_wrap" style="display: none">
+        <div class="scale_edit scale_details_edit">
+            <i class="iconfont icon-jia close_scale_details_edit"></i>
+            <p>编辑评分项</p>
+            <div class="scale_details_edit_question">
+                <p>评分项名称</p>
+                <div><input class="scale_details_edit_title" type="text"></div>
+            </div>
+            <ul class="scale_edit_options">
+                <li>
+                    <p>选项1</p>
+                    <p><input type="text"></p>
+                    <p><input type="number"></p>
+                    <p><i class="iconfont icon-shanchu"></i></p>
+                </li>
+                <li>
+                    <p>选项1</p>
+                    <p><input type="text"></p>
+                    <p><input type="number"></p>
+                    <p><i class="iconfont icon-shanchu"></i></p>
+                </li>
+            </ul>
+            <div class="add_options_edit">增加选项</div>
+            <div class="button_edit_scale button_edit_question">
+                <p class="button_scale_confirm button_edit_question_confirm">确定</p>
+                <p class="button_edit_question_close">取消</p>
+            </div>
+        </div>
+    </div>
+    <div class="track_details_edit_wrap" style="display: none">
+        <div class="scale_edit track_details_edit">
+            <i class="iconfont icon-jia close_track_details_edit"></i>
+            <p>打卡量表详情</p>
+            <div class="track_details_edit_question">
+                <p>打卡量表名称</p>
+                <div><input class="track_details_edit_title" type="text"></div>
+            </div>
+            <ul class="track_edit_options">
+                <!--<li>
+                    <p>关键词1</p>
+                    <p><input type="text"></p>
 
+                    <p><i class="iconfont icon-shanchu"></i></p>
+                </li>-->
+
+            </ul>
+            <div class="add_options_edit add_options_edit_track">增加选项</div>
+            <div class="button_edit_track button_edit_question">
+                <p class="button_track_confirm button_edit_track_confirm">确定</p>
+                <p class="button_edit_track_close">取消</p>
+            </div>
+        </div>
+    </div>
+    <div class="track_details_show_wrap" style="display: none">
+        <div class="scale_edit track_details_edit">
+            <i class="iconfont icon-jia close_track_details_edit"></i>
+            <p>打卡量表详情</p>
+            <div class="track_details_show_question">
+                <p>打卡量表名称:</p>
+                <div class="track_details_show_title"></div>
+            </div>
+            <ul class="track_show_options">
+                <!--<li>
+                    <p>关键词1</p>
+                    <p><input type="text"></p>
+
+                    <p><i class="iconfont icon-shanchu"></i></p>
+                </li>-->
+
+            </ul>
+
+            <div class="button_edit_track button_edit_question">
+
+                <p class="button_edit_track_close">取消</p>
+            </div>
+        </div>
     </div>
 </body>
 <!--<script type="text/html" id="barDemo">
@@ -272,15 +406,21 @@
 </script>-->
 <script type="text/html" id="barDemo">
     <div id="barEdit">
-         {{#  if(d.disable == true){ }}
+         {{#  if(d.disable == true && d.publish == true){ }}
              <a class="layui-btn layui-btn-xs del" lay-event="del">启用</a>
          {{#  } }}
-         {{#  if(d.disable == false){ }}
+         {{#  if(d.disable == false && d.publish == true){ }}
              <a class="layui-btn layui-btn-xs del" lay-event="del">禁用</a>
          {{#  } }}
 
+         {{#  if(d.publish == true){ }}
+             <a class="layui-btn layui-btn-xs publish" lay-event="publish"></a>
+         {{#  } }}
+         {{#  if(d.publish == false){ }}
+             <a class="layui-btn layui-btn-xs publish" lay-event="publish">发布</a>
+             <a class="layui-btn layui-btn-xs edit" lay-event="edit">编辑</a>
+         {{#  } }}
 
-        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
     </div>
 
 </script>
@@ -311,7 +451,33 @@
     </div>
 
 </script>
+<script type="text/html" id="barAdmin">
+    <div id="barAdminEdit">
+        {{#  if(d.disable == true){ }}
+                     <a class="layui-btn layui-btn-xs del" lay-event="del">启用</a>
+                 {{#  } }}
+                 {{#  if(d.disable == false){ }}
+                     <a class="layui-btn layui-btn-xs del" lay-event="del">禁用</a>
+                 {{#  } }}
+        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+        <a class="layui-btn layui-btn-xs" lay-event="details">详情</a>
+    </div>
 
+</script>
+<script type="text/html" id="barClock">
+    <div id="barClockEdit">
+        <a class="layui-btn layui-btn-xs" lay-event="details">详情</a>
+        {{#  if(d.publish == false){ }}
+             <a class="layui-btn layui-btn-xs publish" lay-event="publish">发布</a>
+<!--             <a class="layui-btn layui-btn-xs edit" lay-event="edit">编辑</a>-->
+         {{#  } }}
+    </div>
+</script>
+<script type="text/html" id="barAss">
+    <div id="barAssEdit">
+        <a class="layui-btn layui-btn-xs" lay-event="details">详情</a>
+    </div>
+</script>
 
 <script src="./js/jquery-1.11.3.min.js"></script>
 <script src="./js/jquery.cookie.js"></script>
@@ -322,6 +488,8 @@
 <script src="./js/users.js"></script>
 <script src="./js/clockin.js"></script>
 <script src="./js/scale.js"></script>
+<script src="./js/admin.js"></script>
+<script src="./js/assessment.js"></script>
 <script>
     layui.use(['form', 'layedit', 'laydate'], function(){
         var form = layui.form
