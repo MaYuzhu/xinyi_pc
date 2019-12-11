@@ -41,3 +41,33 @@
     display: flex;
     align-items: center;
 }
+.ass_group_tab>li{
+    cursor: pointer;
+}
+.ass_group_tab>li:hover,.ass_group_tab>li:hover span{
+    color: #f2e768;
+}
+.red{
+    color: #f2c230;
+}
+.a0{
+    color: #a0a0a0;
+}
+.ass_total_score,.ass_role{
+    line-height: 2em;
+}
+.ass_group_content_item{
+    border-bottom: 1px solid #e0e0e0;
+    padding: 18px;
+}
+.ass_group_content_item>ul{
+    display: flex;
+}
+.ass_group_content_item>ul>li{
+    margin: 5px 20px;
+}
+.all_btn:hover{
+    background: #fff8ea;
+    color: #f2c230;
+    cursor: pointer;
+}

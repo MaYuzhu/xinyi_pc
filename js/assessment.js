@@ -15,6 +15,8 @@ $(function () {
     }
     var totalSize = 0
 
+    var dataAll = null
+
     $('.left_ass').click(function () {
         $('.assessment_content').show()
         $('.assessment_details').hide()
@@ -86,59 +88,7 @@ $(function () {
                 var data = obj.data;
                 if(obj.event === 'details') {
                     //console.log(data.record_id)
-                    getAjax(url+'record/get',{record_id:data.record_id},true,function (json) {
-                        console.log(json)
-                        $('.assessment_content').hide()
-                        $('.assessment_details').show()
-                        $('.ass_details_title').text(json.scale.title)
-                        $('.ass_group_tab').empty()
-                        $('.ass_group_content').empty()
-                        $('.ass_total_score>:nth-child(2)').text(json.total_score)
-                        $('.ass_role>:nth-child(2)').text(json.role.title)  //${ass_options[k].option_id==my_option?true:null}
-                        for(let i=0;i<json.groups.length;i++){
-                            $('.ass_group_tab').append(`<li class="ass_group_tab_li">
-                                <p style="font-size:16px;">${json.groups[i].group.title}</p>
-                                <p style="font-size:12px; color:#a0a0a0"><span>得分:</span>${json.groups[i].score}</p>
-                            </li>`)
-
-                            $('.ass_group_content').append(`<li>
-                                <ul class='ass_details_content${i} ass_content'>
-                                    
-                                </ul>
-                            </li>`)
-                            $('.ass_details_content').empty()
-                            var ass_details = json.groups[i].details
-                            for(let j=0;j<json.groups[i].details.length;j++){
-                                $(`.ass_details_content${i}`).append(`<li>
-                                    <p>${json.groups[i].details[j].question.content}</p>
-                                    <ul class='ass_options${j}'>
-                                        
-                                    </ul>
-                                </li>`)
-                                var ass_options = json.groups[i].details[j].question.options
-                                $('.ass_options').empty()
-                                var my_option = 0
-                                //console.log(ass_options)
-                                for (let k=0;k<ass_options.length;k++){
-                                    if(ass_details[j].my_option){
-                                        my_option = ass_details[j].my_option.option_id
-                                        //console.log(ass_details[j].my_option.option_id)
-                                    }else {
-                                        my_option = -1
-                                    }
-
-                                    $(`.ass_details_content${i} .ass_options${j}`).append(`<li>
-                                        <input ${ass_options[k].option_id == my_option?'checked':''}
-                                        disabled="disabled" type="radio"/>
-                                        <text>${ass_options[k].content} (分值:${ass_options[k].score})</text>
-                                    </li>`)
-                                }
-
-                            }
-
-                        }
-                        group_item()
-                    }, errFunc)
+                    getAjax(url+'record/get',{record_id:data.record_id},true,recordGet, errFunc)
                 }
             })
         })
@@ -168,6 +118,64 @@ $(function () {
         },errFunc)
     })
 
+    $('.all_btn').click(function () {
+	    recordGet(dataAll)
+    })
+
+    function recordGet(json) {
+	    dataAll = json
+	    $('.assessment_content').hide()
+	    $('.assessment_details').show()
+	    $('.ass_details_title').text(json.scale.title)
+	    $('.ass_group_tab').empty()
+	    $('.ass_group_content').empty()
+	    $('.ass_total_score>:nth-child(2)').text(json.total_score)
+	    $('.ass_role>:nth-child(2)').text(json.role.title)  //${ass_options[k].option_id==my_option?true:null}
+	    for(let i=0;i<json.groups.length;i++){
+		    $('.ass_group_tab').append(`<li class="ass_group_tab_li">
+                                <p style="font-size:16px;">${json.groups[i].group.title}</p>
+                                <p style="font-size:12px;"><span class="a0 span">得分:</span><span class="a0 span">${json.groups[i].score}</span></p>
+                            </li>`)
+
+		    $('.ass_group_content').append(`<li>
+                                <ul class='ass_details_content${i} ass_content'>
+                                    
+                                </ul>
+                            </li>`)
+		    $('.ass_details_content').empty()
+		    var ass_details = json.groups[i].details
+		    for(let j=0;j<json.groups[i].details.length;j++){
+			    $(`.ass_details_content${i}`).append(`<li>
+                                    <p>${json.groups[i].details[j].question.content}</p>
+                                    <ul class='ass_options${j}'>
+                                        
+                                    </ul>
+                                </li>`)
+			    var ass_options = json.groups[i].details[j].question.options
+			    $('.ass_options').empty()
+			    var my_option = 0
+			    //console.log(ass_options)
+			    for (let k=0;k<ass_options.length;k++){
+				    if(ass_details[j].my_option){
+					    my_option = ass_details[j].my_option.option_id
+					    //console.log(ass_details[j].my_option.option_id)
+				    }else {
+					    my_option = -1
+				    }
+
+				    $(`.ass_details_content${i} .ass_options${j}`).append(`<li>
+                                        <input ${ass_options[k].option_id == my_option?'checked':''}
+                                        disabled="disabled" type="radio"/>
+                                        <text>${ass_options[k].content} (分值:${ass_options[k].score})</text>
+                                    </li>`)
+			    }
+
+		    }
+
+	    }
+	    group_item()
+    }
+
     function scaleTitle(data) {
         var scale_title = ' '
         //console.log(data)
@@ -178,13 +186,43 @@ $(function () {
     }
 
     function group_item() {
-        $('.ass_group_tab_li').each(function () {
-            $(this).click(
-                alert($(this).text())
-            )
+        $('.ass_group_tab_li').each(function (i) {
+            $(this).click(function () {
+              //alert(i)
+	            $('.ass_group_tab_li').eq(i).addClass("red").siblings().removeClass("red")
+	            $('.ass_group_tab_li').eq(i).find('.span').addClass("red").removeClass('a0')
+	            $('.ass_group_tab_li').eq(i).siblings().find('.span').addClass('a0').removeClass("red");
+	            //console.log(dataAll.groups[i].details)
+              var group = dataAll.groups[i].details
+	            $('.ass_group_content').empty()
+              for(let l=0;l<group.length;l++){
+	              $('.ass_group_content').append(`<li class="ass_group_content_item">
+                    <p>${group[l].question.content}</p>
+                    <ul class='ass_options${l}'>
+                        
+                    </ul>
+                </li>`)
+	              var ass_options = group[l].question.options
+	              $('.ass_options').empty()
+	              var my_option = 0
+	              //console.log(ass_options)
+	              for (let k=0;k<ass_options.length;k++){
+		              if(group[l].my_option){
+			              my_option = group[l].my_option.option_id
+
+		              }else {
+			              my_option = -1
+		              }
+
+		              $(`.ass_options${l}`).append(`<li>
+                        <input ${ass_options[k].option_id == my_option?'checked':''}
+                        disabled="disabled" type="radio"/>
+                        <text>${ass_options[k].content} (分值:${ass_options[k].score})</text>
+                    </li>`)
+	              }
+              }
+            })
         })
-        $('.ass_group_tab_li').click(function () {
-            alert(1111)
-        })
+
     }
 })
