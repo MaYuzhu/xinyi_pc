@@ -82,6 +82,45 @@ $(function () {
         $('.scale_details').hide()
     })
 
+    //添加分组
+    $('.add_group_btn').click(function () {
+      $('.add_group_wrap').show()
+      $('.add_group_title').text($('.scale_details_title').text())
+	    getAjax(url+'question-group/list',{scale_id:$('.scale_details_title').attr('id')},true,function (json) {
+        console.log(json)
+	    },errFunc)
+    })
+    //取消关闭
+    $('.button_add_group_close,.close_add_group').click(function () {
+	    $('.add_group_wrap').hide()
+    })
+  
+    //增加组项
+    var options_length_num = 0
+    $('.add_group_option').click(function () {
+	    options_length_num ++
+	    $(`.group_add_options>:last-child .delete_option_group`).remove()
+	    $('.group_add_options').append(`<li class=li${options_length_num-1}>
+                    <p>分组${options_length_num}</p>
+                    <p><input class="options_input" type="text"></p>
+                    
+                    <p class="delete_option_group" value=${options_length_num-1}><i class="iconfont icon-shanchu"></i></p>
+                </li>`)
+	    delete_option_group()
+    })
+
+    //确定分组
+    $('.button_add_group_confirm').click(function () {
+
+        var groupSaveData = {
+	        scale_id:$('.scale_details_title').attr('id'),//question-group/save
+          title:$('.group_add_options .options_input').val()
+        }
+        console.log(groupSaveData)
+	      getAjax(url+'question-group/save',groupSaveData,true,groupSave,errFunc)
+
+	      $('.add_group_wrap').hide()
+    })
 
     function getThemeTitle(json) {
         $('.add_scale_theme').empty()
@@ -180,6 +219,7 @@ $(function () {
                     $('.gauge_content').hide()
                     $('.scale_details').show()
                     $('.scale_details_title').text(data.title)
+	                  $('.scale_details_title').attr('id',data.scale_id)
                     getAjax(url+'question/list',questionListData,true,getQuestionList,errFunc)
                 }
             });
@@ -291,16 +331,24 @@ $(function () {
     }
 
 
+    //删除分组项
+    function delete_option_group() {
+	    $('.delete_option_group').unbind().click(function () {
+		    var index = $(this).attr('value')*1
+		    //console.log(index)
+		    $(`.group_add_options .li${index}`).remove()
+		    options_length_num -= 1
+		    //console.log(options_length_num)
+		    $(`.group_add_options>:last-child`).append(`
+                <p class="delete_option_group" value=${options_length_num-1}><i class="iconfont icon-shanchu"></i></p>
+             `)
+		    delete_option_group()
+	    })
+    }
 
-
-    $('.add_options_edit').click(function () {
-        $('.scale_edit_options').append(`<li>
-                    <p>选项1</p>
-                    <p><input type="text"></p>
-                    <p><input type="number"></p>
-                    <p><i class="iconfont icon-shanchu"></i></p>
-                </li>`)
-    })
+    function groupSave(json) {
+      console.log(json)
+    }
 
 
 })
@@ -321,3 +369,12 @@ $('.button_edit_scale_confirm').click(function () {
     }
     getAjax(url+'scale/save',scaleSaveData,true,scaleSave,errFunc)
 })
+/*
+$('.add_options_edit').click(function () {
+	$('.scale_edit_options').append(`<li>
+                    <p>选项1</p>
+                    <p><input type="text"></p>
+                    <p><input type="number"></p>
+                    <p><i class="iconfont icon-shanchu"></i></p>
+                </li>`)
+})*/
