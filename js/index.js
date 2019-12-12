@@ -1,3 +1,5 @@
+//http://www.sount.net/docs/admin/index.html  接口文档
+
 $(function () {
     $(".left_list li").off("click").on("click",function(){
         var index = $(this).index();

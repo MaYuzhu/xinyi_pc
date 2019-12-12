@@ -141,10 +141,11 @@ $(function () {
 
     $('.search_add_clockin').click(function () {
         //alert(112233)
+        options_length_num = 0
         $('.track_details_edit_wrap').show()
         $('.track_details_edit_title').val('')
         $('.track_edit_options').empty()
-        $('.add_options_edit_track').click(function () {
+        $('.add_options_edit_track').unbind().click(function () {
             if(options_length_num>5){
                 layer.msg('最多设置6个关键词')
                 return false
@@ -163,7 +164,7 @@ $(function () {
             delete_option()
         })
         //确定
-        $('.button_edit_track_confirm').click(function () {
+        $('.button_edit_track_confirm').unbind().click(function () {
             var title_track = $('.track_details_edit_title').val().trim()
             var options_arr = []
             $('.options_input').each(function () {
@@ -182,7 +183,10 @@ $(function () {
             getAjax(url+'track-scale/save',trackAddData,true,function (json) {
                 if(json){
                     layer.msg('添加成功，请发布')
+                }else {
+                    layer.msg('添加失败！')
                 }
+                $('.track_details_edit_wrap').hide()
 
             },errFunc)
         })
@@ -194,124 +198,7 @@ $(function () {
     $('.track_details_show_wrap .close_track_details_edit,.track_details_show_wrap .button_edit_track_close').click(function () {
         $('.track_details_show_wrap').hide()
     })
-    function avatarNickname(data) {
-        var avatarNickname,avatar,Nickname
-        if(data.portrait){
-            avatar = `<img src=${data.portrait} style="width:36px;height:36px;border-radius:24px;margin: 8px 0">`
-        }else {
-            avatar = `<img src='./img/avatar.png' style="width:36px;height:36px;border-radius:24px;margin: 8px 0">`
-        }
-        if(data.nickname){
-            Nickname = `<text style="margin-left: 10px">${data.nickname}</text>`
-        }else {
-            Nickname = '<text style="margin-left: 10px">未知</text>'
-        }
-        avatarNickname = avatar + Nickname
-        //var btns = `<img src=${data.portrait} style="width:40px;height:40px;border-radius:24px"><text>${data.nickname}</text>`
-        return avatarNickname;
-    }
-    function fullName(data) {
-        var full_name
-        if(data.full_name){
-            full_name = `<text>${data.full_name}</text>`
-        }else {
-            full_name = `<text>未知</text>`
-        }
-        return full_name
-    }
-    function trackScale(data){
-        var track
-        //console.log(data.member_id)
-        getAjax(url+'track-scale/list',{member_id:data.member_id,disable:false},false,function (json) {
-            //console.log(json)
-            if(json.results.length>0){
-                track = json.results[0].title
-            }else {
-                track = '暂无打卡项'
-            }
 
-        },errFunc)
-        return track
-    }
-    function createTime(data) {
-        var track
-        getAjax(url+'track-scale/list',{member_id:data.member_id,disable:false},false,function (json) {
-            //console.log(json)
-            if(json.results.length>0){
-                track = json.results[0].create_time
-            }else {
-                track = '--'
-            }
-            //console.log(track)
-            //return track
-        },errFunc)
-        return track
-    }
-    function getClockMember(json) {
-        //console.log(json)
-        getAjax(url+'track-scale/get',{scale_id:json.results[0].scale_id},true,function (res) {
-            console.log(res)
-            var options = res.options
-
-            $('.track_details_edit_title').empty().val(res.title)
-            $('.track_edit_options').empty()
-            if(options){
-                options_length_num = options.length
-                for(let i=0;i<options.length;i++){
-                    if(i+1 == options.length){
-                        $('.track_edit_options').append(`<li class=li${i}>
-                        <p>关键词${i+1}</p>
-                        <p><input class="options_input" type="text" value=${options[i].title}></p>
-                        
-                        <p class="delete_option" value=${i}><i class="iconfont icon-shanchu"></i></p>
-                    </li>`)
-                    }else {
-                        $('.track_edit_options').append(`<li class=li${i}>
-                            <p>关键词${i+1}</p>
-                            <p><input class="options_input" type="text" value=${options[i].title}></p>
-                         </li>`)
-                    }
-
-                }
-            }
-            $('.add_options_edit_track').click(function () {
-                if(options_length_num>5){
-                    layer.msg('最多设置6个关键词')
-                    return false
-                }
-                if(options_length_num==0){
-                    options_length_num = 0
-                }
-                options_length_num ++
-                $(`.track_edit_options>:last-child .delete_option`).remove()
-                $('.track_edit_options').append(`<li class=li${options_length_num-1}>
-                    <p>关键词${options_length_num}</p>
-                    <p><input class="options_input" type="text"></p>
-                    
-                    <p class="delete_option" value=${options_length_num-1}><i class="iconfont icon-shanchu"></i></p>
-                </li>`)
-                delete_option()
-            })
-            $('.button_edit_track_confirm').click(function () {
-                var options = []
-                for(var i=0;i<options_length_num;i++){
-                    options.push({
-                        title: $(`.track_edit_options>:nth-child(${i+1}) .options_input`).val(),
-                        max_level:7
-                    })
-                }
-                console.log(options)
-                var trackSaveData = {
-                    member_id:res.member_id,
-                    title:$('.track_details_edit_title').val(),
-                    options:options
-                }
-                getAjax(url+'track-scale/save',trackSaveData,true,updataTrack,errFunc)
-            })
-            delete_option()
-
-        },errFunc)
-    }
     function delete_option() {
         $('.delete_option').unbind().click(function () {
             var index = $(this).attr('value')*1
@@ -325,7 +212,126 @@ $(function () {
             delete_option()
         })
     }
-    function updataTrack(json) {
-        console.log(json)
-    }
+
 })
+
+
+function avatarNickname(data) {
+    var avatarNickname,avatar,Nickname
+    if(data.portrait){
+        avatar = `<img src=${data.portrait} style="width:36px;height:36px;border-radius:24px;margin: 8px 0">`
+    }else {
+        avatar = `<img src='./img/avatar.png' style="width:36px;height:36px;border-radius:24px;margin: 8px 0">`
+    }
+    if(data.nickname){
+        Nickname = `<text style="margin-left: 10px">${data.nickname}</text>`
+    }else {
+        Nickname = '<text style="margin-left: 10px">未知</text>'
+    }
+    avatarNickname = avatar + Nickname
+    //var btns = `<img src=${data.portrait} style="width:40px;height:40px;border-radius:24px"><text>${data.nickname}</text>`
+    return avatarNickname;
+}
+function fullName(data) {
+    var full_name
+    if(data.full_name){
+        full_name = `<text>${data.full_name}</text>`
+    }else {
+        full_name = `<text>未知</text>`
+    }
+    return full_name
+}
+function trackScale(data){
+    var track
+    //console.log(data.member_id)
+    getAjax(url+'track-scale/list',{member_id:data.member_id,disable:false},false,function (json) {
+        //console.log(json)
+        if(json.results.length>0){
+            track = json.results[0].title
+        }else {
+            track = '暂无打卡项'
+        }
+
+    },errFunc)
+    return track
+}
+function createTime(data) {
+    var track
+    getAjax(url+'track-scale/list',{member_id:data.member_id,disable:false},false,function (json) {
+        //console.log(json)
+        if(json.results.length>0){
+            track = json.results[0].create_time
+        }else {
+            track = '--'
+        }
+        //console.log(track)
+        //return track
+    },errFunc)
+    return track
+}
+function getClockMember(json) {
+    //console.log(json)
+    getAjax(url+'track-scale/get',{scale_id:json.results[0].scale_id},true,function (res) {
+        console.log(res)
+        var options = res.options
+
+        $('.track_details_edit_title').empty().val(res.title)
+        $('.track_edit_options').empty()
+        if(options){
+            options_length_num = options.length
+            for(let i=0;i<options.length;i++){
+                if(i+1 == options.length){
+                    $('.track_edit_options').append(`<li class=li${i}>
+                        <p>关键词${i+1}</p>
+                        <p><input class="options_input" type="text" value=${options[i].title}></p>
+                        
+                        <p class="delete_option" value=${i}><i class="iconfont icon-shanchu"></i></p>
+                    </li>`)
+                }else {
+                    $('.track_edit_options').append(`<li class=li${i}>
+                            <p>关键词${i+1}</p>
+                            <p><input class="options_input" type="text" value=${options[i].title}></p>
+                         </li>`)
+                }
+
+            }
+        }
+        $('.add_options_edit_track').click(function () {
+            if(options_length_num>5){
+                layer.msg('最多设置6个关键词')
+                return false
+            }
+            if(options_length_num==0){
+                options_length_num = 0
+            }
+            options_length_num ++
+            $(`.track_edit_options>:last-child .delete_option`).remove()
+            $('.track_edit_options').append(`<li class=li${options_length_num-1}>
+                    <p>关键词${options_length_num}</p>
+                    <p><input class="options_input" type="text"></p>
+                    
+                    <p class="delete_option" value=${options_length_num-1}><i class="iconfont icon-shanchu"></i></p>
+                </li>`)
+            delete_option()
+        })
+        $('.button_edit_track_confirm').click(function () {
+            var options = []
+            for(var i=0;i<options_length_num;i++){
+                options.push({
+                    title: $(`.track_edit_options>:nth-child(${i+1}) .options_input`).val(),
+                    max_level:7
+                })
+            }
+            console.log(options)
+            var trackSaveData = {
+                member_id:res.member_id,
+                title:$('.track_details_edit_title').val(),
+                options:options
+            }
+            getAjax(url+'track-scale/save',trackSaveData,true,updataTrack,errFunc)
+
+        })
+        delete_option()
+
+    },errFunc)
+}

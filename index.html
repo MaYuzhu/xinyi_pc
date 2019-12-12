@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="./css/index.css">
     <link rel="stylesheet" href="./css/track.css">
     <link rel="stylesheet" href="./css/assessment.css">
+    <link rel="stylesheet" href="./css/scale.css">
 </head>
 <body>
     <div class="wrap">
@@ -299,6 +300,47 @@
         </div>
 
     </div>
+    <div class="scale_add_wrap" style="display: none">
+        <div class="scale_add">
+            <i class="iconfont icon-jia close_scale_add"></i>
+            <p class="scale_title_add_edit">--新增量表</p>
+            <form class="layui-form layui-form-pane add_scale_form" action="">
+                <div>
+                    <p>量表名称</p>
+                    <input class="scale_add_title layui-input" type="text" autocomplete="off">
+                </div>
+                <div class="time_theme">
+                    <div>
+                        <p>答题时间(分钟)</p>
+                        <input οninput="value=value.replace(/[^\d]/g,'')"
+                               class="scale_add_time layui-input" type="number">
+                    </div>
+                    <div>
+                        <p style="text-align: right;margin-right: 20px">选择主题</p>
+                        <select class="add_scale_theme" name="add_scale_theme" lay-filter="aihao">
+                            <!--<option value=""> </option>
+                            <option value='false'> </option>
+                            <option value='true'> </option>-->
+                        </select>
+                    </div>
+
+                </div>
+                <div>
+                    <p>量表说明</p>
+                    <textarea class="scale_add_description" style="width:300px;height:50px;border: 1px solid #e6e6e6"></textarea>
+                </div>
+                <div>
+                    <p>指导语</p>
+                    <textarea class="scale_add_promise" style="width:300px;height:50px;border: 1px solid #e6e6e6"></textarea>
+                </div>
+            </form>
+
+            <div class="button_add_scale">
+                <p class="button_scale_confirm button_add_scale_confirm">确定</p>
+                <p class="button_add_scale_close">取消</p>
+            </div>
+        </div>
+    </div>
     <div class="scale_edit_wrap">
         <div class="scale_edit">
             <p>修改量表</p>
@@ -440,14 +482,21 @@
 </script>
 <script type="text/html" id="barScale">
     <div id="barScaleEdit">
-        {{#  if(d.disable == true){ }}
-                     <a class="layui-btn layui-btn-xs del" lay-event="del">启用</a>
-                 {{#  } }}
-                 {{#  if(d.disable == false){ }}
-                     <a class="layui-btn layui-btn-xs del" lay-event="del">禁用</a>
-                 {{#  } }}
-        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-        <a class="layui-btn layui-btn-xs" lay-event="details">详情</a>
+         {{#  if(d.disable == true && d.publish == true){ }}
+             <a class="layui-btn layui-btn-xs del" lay-event="del">启用</a>
+         {{#  } }}
+         {{#  if(d.disable == false && d.publish == true){ }}
+             <a class="layui-btn layui-btn-xs del" lay-event="del">禁用</a>
+         {{#  } }}
+
+         {{#  if(d.publish == true){ }}
+             <!--<a class="layui-btn layui-btn-xs publish" lay-event="publish"></a>-->
+         {{#  } }}
+         {{#  if(d.publish == false){ }}
+             <a class="layui-btn layui-btn-xs publish" lay-event="publish">发布</a>
+             <a class="layui-btn layui-btn-xs edit" lay-event="edit">编辑</a>
+         {{#  } }}
+             <a class="layui-btn layui-btn-xs" lay-event="details">详情</a>
     </div>
 
 </script>

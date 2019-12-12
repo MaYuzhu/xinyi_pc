@@ -367,7 +367,7 @@ html, body{
     padding:0 8px;
 }
 /*编辑量表*/
-.scale_edit_wrap,.scale_details_edit_wrap,.track_details_edit_wrap{
+.scale_edit_wrap,.scale_details_edit_wrap,.track_details_edit_wrap,.scale_add_wrap{
     width: 100%;
     min-height: 100%;
     position: absolute;

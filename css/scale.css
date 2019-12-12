@@ -1,0 +1,77 @@
+
+.scale_add{
+    width: 800px;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    margin: 100px auto auto;
+    background: white;
+    padding: 50px 100px 50px;
+}
+.scale_add>i{
+    display: block;
+    transform: translate(88px,-38px) rotate(45deg);
+    float: right;
+    cursor: pointer;
+}
+.scale_add>p{
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+.add_scale_form>div{
+    margin: 20px 0;
+}
+.add_scale_form>:nth-child(1),.add_scale_form>:nth-child(3),.add_scale_form>:nth-child(4){
+    display: flex;
+}
+.add_scale_form>:nth-child(1)>p,.add_scale_form>:nth-child(3)>p,.add_scale_form>:nth-child(4)>p{
+    width: 110px;
+    line-height: 38px;
+}
+.add_scale_form>:nth-child(1)>input{
+    width: 445px;
+}
+.time_theme{
+    display: flex;
+}
+.time_theme>div{
+    display: flex;
+}
+.time_theme>div>p{
+    width: 110px;
+    line-height: 38px;
+}
+.time_theme>div>input{
+    width: 120px;
+}
+.button_add_scale{
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+.button_add_scale>p{
+    border-radius: 5px;
+    border: 1px solid #999;
+    margin: 0 20px;
+    padding: 5px 2px;
+    color: #999;
+    width: 80px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 16px;
+}
+.button_add_scale .button_add_scale_confirm{
+    background: #e6a825;
+    color: white;
+    border: 1px solid #e6a825;
+}
+.button_add_scale .button_add_scale_confirm:hover{
+    background: #f9bf53;
+    color: white;
+}
+.button_add_scale .button_add_scale_close:hover{
+    border: 1px solid #e6a825;
+    background: #fff8ea;
+    color: #e6a825;
+}

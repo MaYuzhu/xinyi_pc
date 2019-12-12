@@ -197,7 +197,7 @@ $(function () {
 	            $('.ass_group_content').empty()
               for(let l=0;l<group.length;l++){
 	              $('.ass_group_content').append(`<li class="ass_group_content_item">
-                    <p>${group[l].question.content}</p>
+                    <p>${l+1}. ${group[l].question.content}</p>
                     <ul class='ass_options${l}'>
                         
                     </ul>
