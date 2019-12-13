@@ -133,3 +133,32 @@
 .group_add_options>li>:nth-child(3):hover{
     background: #f9bf53;
 }
+.group_add_options>li>.delete_option_group{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    color: white;
+    line-height: 30px;
+    text-align: center;
+    cursor: pointer;
+    background: #e6a825;
+    margin-left: 20px;
+}
+.add_question{
+    display: block;
+    margin-left: 160px;
+    line-height: 30px;
+    font-size: 14px;
+    width: 100px;
+    border: 1px solid #dcdfe6;
+    height: 100%;
+    border-radius: 3px;
+    color: #666;
+    text-align: center;
+    cursor: pointer;
+}
+.add_question:hover{
+    border: 1px solid #e6a825;
+    background: #fff8ea;
+    color: #e6a825;
+}

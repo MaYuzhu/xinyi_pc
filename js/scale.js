@@ -83,12 +83,29 @@ $(function () {
     })
 
     //添加分组
+    var options_length_num = 0
     $('.add_group_btn').click(function () {
-      $('.add_group_wrap').show()
-      $('.add_group_title').text($('.scale_details_title').text())
-	    getAjax(url+'question-group/list',{scale_id:$('.scale_details_title').attr('id')},true,function (json) {
-        console.log(json)
-	    },errFunc)
+        $('.add_group_wrap').show()
+        $('.add_group_title').text($('.scale_details_title').text())
+        $('.group_add_options').empty()
+        options_length_num = 0
+        getAjax(url+'question-group/list',{scale_id:$('.scale_details_title').attr('id')},true,function (json) {
+            console.log(json)
+            for(var i=0;i<json.results.length;i++){
+                options_length_num ++
+                $('.group_add_options').append(`<li class=li${options_length_num-1}>
+                    <p>分组${options_length_num}</p>
+                    <p><input value=${json.results[i].title} class="options_input" type="text"></p>
+                    
+                    <p class="delete_option_group" value=${options_length_num-1}
+                        style="display:${(json.results.length)==options_length_num?'block':'none'}">
+                        <i class="iconfont icon-shanchu"></i>
+                    </p>
+                </li>`)
+            }
+            delete_option_group()
+
+        },errFunc)
     })
     //取消关闭
     $('.button_add_group_close,.close_add_group').click(function () {
@@ -96,7 +113,7 @@ $(function () {
     })
   
     //增加组项
-    var options_length_num = 0
+
     $('.add_group_option').click(function () {
 	    options_length_num ++
 	    $(`.group_add_options>:last-child .delete_option_group`).remove()
