@@ -113,7 +113,6 @@ $(function () {
     })
   
     //增加组项
-
     $('.add_group_option').click(function () {
 	    options_length_num ++
 	    $(`.group_add_options>:last-child .delete_option_group`).remove()
@@ -125,15 +124,54 @@ $(function () {
                 </li>`)
 	    delete_option_group()
     })
+  
+    //增加问题（评分项）
+    var num_add_question = 0
+	  var num_add_option = 0
+    $('.add_question').click(function () {
+
+	      num_add_question++  //<span>问题</span>${num_add_question}
+        $('.scale_details_content').append(`<li class=scale_details_question${num_add_question}>
+            <div>
+                <p>
+                    <span>问题</span>
+                    <span class="scale_details_question_p">
+                      <input class=scale_details_question_input${num_add_question} type="text">
+                    </span>
+                    <span style="margin-left:18px;">本题满分</span>
+                    <span class="scale_details_question_p" style="width: 50px">
+                      <input class='scale_details_question_input scale_details_question_weight${num_add_question}'  type="number">
+                    </span>
+                </p>
+                <ul class='scale_details_options${num_add_question} scale_details_options'>
+                    <!--<li><span>选项1</span><input type="text"></li>
+                    <li><span>选项2</span><input type="text"></li>-->
+                </ul>
+                <div class="add_option_item${num_add_question} add_option_item">增加选项</div>
+            </div>
+            <div class="scale_details_options_edit">
+                <div class="del${num_add_question}"><i class="iconfont icon-shanchu"></i></div>
+                <!--<div><i class="iconfont icon-bianji"></i></div>-->
+            </div>
+        </li>`)
+	      del_question_item()
+	      add_option_item()
+
+    })
 
     //确定分组
     $('.button_add_group_confirm').click(function () {
 
-        var groupSaveData = {
-	        scale_id:$('.scale_details_title').attr('id'),//question-group/save
-          title:$('.group_add_options .options_input').val()
-        }
-        console.log(groupSaveData)
+        var groupSaveData = []
+	        //scale_id:$('.scale_details_title').attr('id'),//question-group/save
+          //title:$('.group_add_options .options_input').val()
+        $('.group_add_options .options_input').each(function (i) {
+	          groupSaveData.push({
+              title:$(this).val(),
+		          scale_id:$('.scale_details_title').attr('id'),
+	          })
+        })
+        //console.log(groupSaveData)
 	      getAjax(url+'question-group/save',groupSaveData,true,groupSave,errFunc)
 
 	      $('.add_group_wrap').hide()
@@ -235,6 +273,7 @@ $(function () {
                     }
                     $('.gauge_content').hide()
                     $('.scale_details').show()
+	                  num_add_question = 0
                     $('.scale_details_title').text(data.title)
 	                  $('.scale_details_title').attr('id',data.scale_id)
                     getAjax(url+'question/list',questionListData,true,getQuestionList,errFunc)
@@ -327,6 +366,43 @@ $(function () {
             getAjax(url+'question/get',{with_option:true,question_id:qu_id},true,getQuestion,errFunc)
         })
 
+    }
+
+    function del_question_item() {
+
+	      for(let i=0;i<=num_add_question;i++){
+		        $(`.del${i}`).unbind().click(function () {
+			          $(`.scale_details_question${i}`).remove()
+			          num_add_question -=1
+            })
+        }
+    }
+
+    function add_option_item() {
+        for(let i=0;i<=num_add_question;i++){
+
+            $(`.add_option_item${i}`).unbind().click(function () {
+	              num_add_option ++
+                $(`.scale_details_options${i}`).append(`<li class="add_option_li${num_add_option} add_option_li">
+                    <span>选项</span>
+                    <span class="add_option_li_input"><input type="text"></span>
+                    <span style="margin-left:20px">分值</span>
+                    <span class="add_option_li_input" style="width:50px;"><input type="number"></span>
+                    <div class="del_option_i${num_add_option}"><i class="iconfont icon-shanchu"></i></div>
+                </li>`)
+	              del_option_item()
+            })
+
+        }
+
+    }
+
+    function del_option_item() {
+	      for(let i=0;i<=num_add_option;i++){
+		        $(`.del_option_i${i}`).unbind().click(function () {
+		            $(`.add_option_li${i}`).remove()
+            })
+        }
     }
 
     //获取问题详情
