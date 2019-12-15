@@ -23,6 +23,8 @@ $(function () {
         },
         //theme_id:1
     }
+
+    var groupDataArr = []
     var totalSize = 0
     $('.left_gauge').click(function () {
         pageScale()
@@ -90,7 +92,7 @@ $(function () {
         $('.group_add_options').empty()
         options_length_num = 0
         getAjax(url+'question-group/list',{scale_id:$('.scale_details_title').attr('id')},true,function (json) {
-            console.log(json)
+            //console.log(json)
             for(var i=0;i<json.results.length;i++){
                 options_length_num ++
                 $('.group_add_options').append(`<li class=li${options_length_num-1}>
@@ -148,14 +150,27 @@ $(function () {
                     <li><span>选项2</span><input type="text"></li>-->
                 </ul>
                 <div class="add_option_item${num_add_question} add_option_item">增加选项</div>
+                <form class="layui-form layui-form-pane select_item_form" action="">
+                    <select class="select_item${num_add_question} select_item"  name="interest" lay-filter="aihao">
+                        
+                    </select>
+                </form>
+                
             </div>
             <div class="scale_details_options_edit">
                 <div class="del${num_add_question}"><i class="iconfont icon-shanchu"></i></div>
                 <!--<div><i class="iconfont icon-bianji"></i></div>-->
             </div>
         </li>`)
+
+	      $('.select_item').append(`<option value='-1'>可选择分组</option>`)
+        for(let i=0;i<groupDataArr.length;i++){
+            $('.select_item').append(`<option value='false'>${groupDataArr[i].title}</option>`)
+        }
+
 	      del_question_item()
 	      add_option_item()
+	      form.render('select')
 
     })
 
@@ -277,6 +292,7 @@ $(function () {
                     $('.scale_details_title').text(data.title)
 	                  $('.scale_details_title').attr('id',data.scale_id)
                     getAjax(url+'question/list',questionListData,true,getQuestionList,errFunc)
+	                  getAjax(url+'question-group/list',{scale_id:data.scale_id},true,getGroupList,errFunc)
                 }
             });
         });
@@ -366,6 +382,10 @@ $(function () {
             getAjax(url+'question/get',{with_option:true,question_id:qu_id},true,getQuestion,errFunc)
         })
 
+    }
+
+    function getGroupList(json) {
+        groupDataArr = json.results
     }
 
     function del_question_item() {

@@ -45,6 +45,11 @@
 .time_theme>div>input{
     width: 120px;
 }
+.select_item_form>.layui-form-select{
+    width: 140px;
+    margin-left: 40px;
+    margin-top: 24px;
+}
 .button_add_scale{
     display: flex;
     justify-content: flex-end;
