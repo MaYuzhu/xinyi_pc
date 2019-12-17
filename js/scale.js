@@ -97,7 +97,7 @@ $(function () {
                 options_length_num ++
                 $('.group_add_options').append(`<li class=li${options_length_num-1}>
                     <p>分组${options_length_num}</p>
-                    <p><input value=${json.results[i].title} class="options_input" type="text"></p>
+                    <p><input group_id=${json.results[i].group_id} value=${json.results[i].title} class="options_input" type="text"></p>
                     
                     <p class="delete_option_group" value=${options_length_num-1}
                         style="display:${(json.results.length)==options_length_num?'block':'none'}">
@@ -131,6 +131,31 @@ $(function () {
     var num_add_question = 0
 	  var num_add_option = 0
     $('.add_question').click(function () {
+        $(this).attr('num',num_add_question)
+        if($(this).attr('num')>0){
+            var options = []
+            for(var i=0;i<$(`.scale_details_options${num_add_question}>li`).length;i++){
+	              options.push({
+		                option_id:i,
+		                content:$(`.scale_details_options${num_add_question}>:nth-child(${i+1}) .option_content`).val(),
+		                score:$(`.scale_details_options${num_add_question}>:nth-child(${i+1}) .option_score`).val(),
+		                priority:i
+                })
+            }
+            //保存问题
+            var questionSaveData = {
+	              scale_id:$('.scale_details_title').attr('id'),
+	              group_id:$(`.scale_details_question${num_add_question} .select_item`).val(),
+	              content:$(`.scale_details_question${num_add_question} .scale_question_input_content`).val(),
+	              weight:$(`.scale_details_question${num_add_question} .scale_question_input_weight>input`).val(),
+	              priority:num_add_question,
+	              options:options,
+            }
+            console.log(questionSaveData)
+	          getAjax(url+'question/save',questionSaveData,true,function (json) {
+                alert(json)
+	          },errFunc)
+        }
 
 	      num_add_question++  //<span>问题</span>${num_add_question}
         $('.scale_details_content').append(`<li class=scale_details_question${num_add_question}>
@@ -138,10 +163,10 @@ $(function () {
                 <p>
                     <span>问题</span>
                     <span class="scale_details_question_p">
-                      <input class=scale_details_question_input${num_add_question} type="text">
+                      <input class='scale_details_question_input${num_add_question} scale_question_input_content' type="text">
                     </span>
                     <span style="margin-left:18px;">本题满分</span>
-                    <span class="scale_details_question_p" style="width: 50px">
+                    <span class="scale_details_question_p scale_question_input_weight" style="width: 50px">
                       <input class='scale_details_question_input scale_details_question_weight${num_add_question}'  type="number">
                     </span>
                 </p>
@@ -163,14 +188,15 @@ $(function () {
             </div>
         </li>`)
 
-	      $('.select_item').append(`<option value='-1'>可选择分组</option>`)
+	      $('.select_item').append(`<option value='null'>可选择分组</option>`)
         for(let i=0;i<groupDataArr.length;i++){
-            $('.select_item').append(`<option value='false'>${groupDataArr[i].title}</option>`)
+            $('.select_item').append(`<option value=${groupDataArr[i].group_id}>${groupDataArr[i].title}</option>`)
         }
 
 	      del_question_item()
 	      add_option_item()
 	      form.render('select')
+
 
     })
 
@@ -182,6 +208,7 @@ $(function () {
           //title:$('.group_add_options .options_input').val()
         $('.group_add_options .options_input').each(function (i) {
 	          groupSaveData.push({
+		          group_id:$(this).attr('group_id'),
               title:$(this).val(),
 		          scale_id:$('.scale_details_title').attr('id'),
 	          })
@@ -405,9 +432,9 @@ $(function () {
 	              num_add_option ++
                 $(`.scale_details_options${i}`).append(`<li class="add_option_li${num_add_option} add_option_li">
                     <span>选项</span>
-                    <span class="add_option_li_input"><input type="text"></span>
+                    <span class="add_option_li_input"><input class="option_content" type="text"></span>
                     <span style="margin-left:20px">分值</span>
-                    <span class="add_option_li_input" style="width:50px;"><input type="number"></span>
+                    <span class="add_option_li_input" style="width:50px;"><input class="option_score" type="number"></span>
                     <div class="del_option_i${num_add_option}"><i class="iconfont icon-shanchu"></i></div>
                 </li>`)
 	              del_option_item()
