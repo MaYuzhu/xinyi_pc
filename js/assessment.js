@@ -215,16 +215,20 @@ $(function () {
                     <td colspan='4'>分组：${json.groups[i].group.title}&nbsp;(得分：${json.groups[i].score})</td>
                 </tr>
             `)
-            for(var j=0;j<json.groups[i].details.length;j++){
-                $('#ass_export').append(`
+            if(json.groups[i].details){
+                for(var j=0;j<json.groups[i].details.length;j++){
+
+                    $('#ass_export').append(`
                     <tr>
                         <td>题目：${j+1}</td>
                         <td>${json.groups[i].details[j].question.content}</td>
-                        <td>选项：${json.groups[i].details[j].my_option.content}</td>
-                        <td>得分：${json.groups[i].details[j].my_option.score}</td>
+                        <td>选项：${json.groups[i].details[j].my_option?json.groups[i].details[j].my_option.content:'未选择'}</td>
+                        <td>得分：${json.groups[i].details[j].my_option?json.groups[i].details[j].my_option.score:0}</td>
                     </tr>
                 `)
+                }
             }
+
 
         }
         $('.ass_export_btn').show()
