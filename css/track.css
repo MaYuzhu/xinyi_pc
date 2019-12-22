@@ -243,3 +243,29 @@
 .track_show_options li>p{
     margin-right: 20px;
 }
+.export .scale_details_top .track_export_btn{
+    border-radius: 5px;
+    cursor: pointer;
+    width: 80px;
+    height: 30px;
+    line-height: 30px;
+    background: #e6a825;
+    color: white;
+    border: 1px solid #e6a825;
+    font-size: 16px;
+    text-align: center;
+    display: none;
+    padding: 0;
+}
+.track_export_btn:hover{
+    background: #f9bf53;
+}
+#track_export{
+    width: 100%;
+    margin: 20px 0;
+}
+#track_export tr td{
+    border: 1px solid #e6e6e6;
+    line-height: 3em;
+    text-align: center;
+}

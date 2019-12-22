@@ -174,13 +174,13 @@
     text-align: center;
     padding: 18px;
 }
-.scale_details_content{
+.scale_details_content,.scale_details_content_edit{
     padding: 0 50px;
 }
-.scale_details_content>li{
+.scale_details_content>li,.scale_details_content_edit>li{
     display: flex;
     justify-content: space-between;
-    border-bottom: 1px solid #e0e0e0;
+    border-bottom: 1px solid #a9a9a9;
     padding: 20px 0;
     line-height: 2.5em;
 }
@@ -249,7 +249,7 @@
     height: 25px;
     border-radius: 50%;
     color: white;
-    line-height: 25px;
+    line-height: 24px;
     text-align: center;
     cursor: pointer;
     background: #e6a825;
@@ -258,6 +258,7 @@
 }
 .add_option_li>div>.icon-shanchu{
     font-size: 12px;
+    margin-left: -1px;
 }
 .scale_details_options_edit>:nth-child(1){
     width: 38px;
@@ -381,4 +382,26 @@
 }
 .button_edit_question_confirm{
     background: #00F7DE;
+}
+.scale_question_input_content,.scale_details_question_input,.option_score{
+    border: none;
+    width: 100%;
+    line-height: 34px;
+    padding-left: 5px;
+}
+.scale_details_content_edit>li{
+    position: relative;
+}
+.save_question{
+    padding: 0px 20px;
+    background: #e6a825;
+    position: absolute;
+    right: 10px;
+    bottom: 20px;
+    color: white;
+    border-radius: 3px;
+    cursor: pointer;
+}
+.save_question:hover{
+    background: #f9bf53;
 }

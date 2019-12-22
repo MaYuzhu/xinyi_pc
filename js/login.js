@@ -1,3 +1,5 @@
+
+
 $(function () {
     $('.username').focus(function () {
         if($('.user_message').text()==''&&$(this).val()==''){
@@ -55,11 +57,11 @@ $(function () {
             type: 'POST',
             async: false,
             cache: false,
-            url: 'https://api.anlanxinyi.com/admin/' + 'oauth/login',
+            url: url + 'oauth/login',
             //data:JSON.stringify({username:data.username,password:data.password}),
             data:{username:data.username,password:data.password},
             dataType: 'json',
-            //contentType: 'application/json',
+            contentType: 'application/x-www-form-urlencoded',
             xhrFields:{
                 withCredentials:true
             },

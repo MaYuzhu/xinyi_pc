@@ -71,3 +71,11 @@
     color: #f2c230;
     cursor: pointer;
 }
+#ass_export{
+    width: 100%;
+}
+#ass_export tr td{
+    border: 1px solid #e6e6e6;
+    line-height: 3em;
+    padding: 0 10px;
+}

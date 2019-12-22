@@ -57,14 +57,14 @@ $(function () {
 
                 ,data: dataClock
                 ,cols: [[
-                    {field:'title', width:'10%',  title: '打卡量表'}
-                    ,{field:'publish_explain', width:'15%',   title: '发布状态'}
-                    ,{field:'disable_explain', width:'15%',  title: '禁用状态'}
+                    {field:'title',  title: '打卡量表'}
+                    ,{field:'publish_explain', align:'center', width:120,  title: '发布状态'}
+                    ,{field:'disable_explain', align:'center', width:120, title: '禁用状态'}
 
                       //templet: ZhuangTai, fixed:'left',
-                    ,{field:'create_time', width:'25%',   title: '创建时间'}
-                    ,{field:'update_time', width: '20%',  title: '更新时间'}
-                    ,{fixed:'right',field:'priority', width: '15%', toolbar: '#barClock', title: '操作'}
+                    ,{field:'create_time', align:'center', width:220, title: '创建时间'}
+                    ,{field:'update_time', align:'center', width:220, title: '更新时间'}
+                    ,{fixed:'right',field:'priority',align:'center', width:120, toolbar: '#barClock', title: '操作'}
 
                 ]]
                 /*,page: {
@@ -123,7 +123,11 @@ $(function () {
     }
 
     $('.search_clockin').click(function () {
-        var phone = $('.clockin .input_sousuo input').val()
+        var phone = $('.clockin .input_sousuo input').val().trim()
+        if(!phone){
+            layer.msg('请输入手机号')
+            return
+        }
 
         getAjax(url+'member/search',{phone:phone},true,function (json) {
             //console.log(json)

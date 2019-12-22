@@ -53,11 +53,11 @@ $(function () {
 
                 ,data: dataAdmin
                 ,cols: [[
-                    {field:'full_name', width:'15%', title: '姓名'}
-                    ,{field:'phone', width:'15%', title: '手机'}
-                    ,{field:'disable', width:'15%', templet: ZhuangTai,  title: '状态'}
-                    ,{field:'create_time', width:'25%', title: '创建时间'}
-                    ,{fixed:'right',field:'priority', width: '20%', toolbar: '#barAdmin', title: '操作'}
+                    {field:'full_name',align:'center', width:150, title: '姓名'}
+                    ,{field:'phone', align:'center', width:240, title: '手机'}
+                    ,{field:'disable', align:'center', width:120, templet: ZhuangTai,  title: '状态'}
+                    ,{field:'create_time', align:'center', width:220, title: '创建时间'}
+                    ,{fixed:'right',field:'priority', align:'center', toolbar: '#barAdmin', title: '操作'}
 
                 ]]
                 /*,page: {
@@ -65,7 +65,7 @@ $(function () {
                     ,theme: '#e6a825'
                 },*/
                 ,page: false,
-                skin: 'row', //表格风格
+                //skin: 'row', //表格风格
                 even: false, //隔行背景
                 //limits: [5, 10, 15], //显示
                 limit: 10 //每页默认显示的数量
@@ -118,4 +118,10 @@ $(function () {
     function adminTheme(json){
         console.log(json)
     }
+
+    //退出
+    $('.logout_admin').click(function () {
+        $('.logout').click()
+    })
+
 })

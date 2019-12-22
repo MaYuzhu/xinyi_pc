@@ -1,8 +1,21 @@
 $(function () {
 
     var dataTheme = null
+
+    var form
+    layui.use(['form'], function(){
+        form = layui.form
+    });
+
+    form.render('select')
+
     //获取主题列表
-    getAjax(url+'theme/search',{paging:false},true,getThemeList,errFunc)
+
+    $('.left_theme').click(function () {
+        getAjax(url+'theme/search',{paging:false},true,getThemeList,errFunc)
+    })
+
+    $('.left_theme').click()
 
     function getThemeList(json) {
         //console.log(json)
@@ -35,22 +48,22 @@ $(function () {
             //console.log(dataTheme)
             table.render({
                 elem: '#zhuti'
-                //,url:'./js/aa.json'
+                //,url: url+'theme/search'
+                //,where: {paging: false}  //如果无需传递额外参数，可不加该参数
+                //,method: 'post'          //如果无需自定义HTTP类型，可不加该参数
                 //,width: '100%'
+                //,width: '800px'
                 //,height: 530
+                //,cellMinWidth:80
                 ,data: dataTheme.data
                 ,cols: [[
-                    {field:'title', width:'35%', title: '主题名称'}
-                    ,{field:'publish_explain', width:'13%', templet:FabuZhuangTai,  title: '发布状态'} //templet: ZhuangTai,
-                    ,{field:'disable', width:'12%', templet:ZhuangTai,  title: '禁用状态'}
-                    ,{field:'create_time', width:'25%', title: '创建时间'}
-                    ,{fixed:'right',field:'priority', width: '15%', toolbar: '#barDemo', title: '操作'}
+                    {field:'title', title: '主题名称'}//width:'250px',
+                    ,{field:'publish_explain', align:'center', width:120, templet:FabuZhuangTai,  title: '发布状态'} //templet: ZhuangTai,
+                    ,{field:'disable', align:'center', width:120, templet:ZhuangTai,  title: '禁用状态'}
+                    ,{field:'create_time', align:'center', width:220, title: '创建时间'}
+                    ,{fixed:'right',field:'priority',  width:120, toolbar: '#barDemo', title: '操作'}
 
                 ]]
-                /*,page: {
-                    layout: [ 'prev', 'page', 'next'] //自定义分页布局
-                    ,theme: '#e6a825'
-                }*/
                 ,page:false,
                 skin: 'row', //表格风格
                 even: true, //隔行背景
@@ -170,7 +183,7 @@ $(function () {
     }
 
     function publishTheme(json) {
-        console.log(json)
+        //console.log(json)
         getAjax(url+'theme/search',{paging:false},true,getThemeList,errFunc)
     }
 })

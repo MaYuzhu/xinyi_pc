@@ -20,9 +20,22 @@ $(function () {
     $('.left_ass').click(function () {
         $('.assessment_content').show()
         $('.assessment_details').hide()
+        $('.assessment_export').hide()
+        $('.ass_export_btn').hide()
         getAssData.member_id = null
         $('.assessment .input_sousuo input').val('')
         pageAss()
+
+        $(".ass_export_btn").click(function(){
+            $("#ass_export").table2excel({
+                exclude: ".noExl",
+                name: "测评报表",
+                filename: "测评报表",
+                exclude_img: true,
+                exclude_links: true,
+                exclude_inputs: true
+            });
+        });
     })
 
     function pageAss() {
@@ -64,12 +77,12 @@ $(function () {
 
                 ,data: dataAss
                 ,cols: [[
-                    {field:'scale', width:'20%', templet: scaleTitle, title: '量表名称'}
-                    ,{field:'total_score', width:'10%' ,title: '得分'}
+                    {field:'scale', templet: scaleTitle, title: '量表名称'}
+                    ,{field:'total_score', align:'center', width:120, title: '得分'}
                     //,{field:'record_id', width:'15%', title: 'id'}
-                    ,{field:'complete_time', width:'25%',  title: '完成时间'}  //templet: ZhuangTai,
-                    ,{field:'create_time', width:'25%', title: '创建时间'}
-                    ,{fixed:'right',field:'priority', width: '15%', toolbar: '#barAss', title: '操作'}
+                    ,{field:'complete_time', align:'center', width:220,  title: '完成时间'}  //templet: ZhuangTai,
+                    ,{field:'create_time', align:'center', width:220, title: '创建时间'}
+                    ,{fixed:'right',field:'priority', width:120, toolbar: '#barAss', title: '操作'}
 
                 ]]
                 /*,page: {
@@ -88,17 +101,24 @@ $(function () {
                 var data = obj.data;
                 if(obj.event === 'details') {
                     //console.log(data.record_id)
+                    $('.assessment_export').hide()
+                    $('.assessment_content').hide()
+                    $('.assessment_details').show()
                     getAjax(url+'record/get',{record_id:data.record_id},true,recordGet, errFunc)
+                }else if(obj.event === 'export'){
+                    $('.assessment_export').show()
+                    $('.assessment_content').hide()
+                    $('.assessment_details').hide()
+                    $("#ass_export").empty()
+                    getAjax(url+'record/get',{record_id:data.record_id},true,recordExport, errFunc)
                 }
             })
         })
     }
 
     //返回量表列表
-    $('.back_ass_content').click(function () {
-        $('.assessment_content').show()
-        $('.assessment_details').hide()
-
+    $('.assessment .back_ass_content').click(function () {
+        $('.left_ass').click()
     })
 
     $('.search_ass').click(function () {
@@ -123,9 +143,9 @@ $(function () {
     })
 
     function recordGet(json) {
+        //console.log(json)
 	    dataAll = json
-	    $('.assessment_content').hide()
-	    $('.assessment_details').show()
+
 	    $('.ass_details_title').text(json.scale.title)
 	    $('.ass_group_tab').empty()
 	    $('.ass_group_content').empty()
@@ -174,6 +194,40 @@ $(function () {
 
 	    }
 	    group_item()
+    }
+
+    function recordExport(json) {
+        console.log(json)
+        $('#ass_export').append(`
+            <tr>
+                <td colspan='4' style="border: none;text-align: left;">
+                    角色：${json.role.title}
+                    &nbsp;&nbsp;&nbsp;&nbsp;时间：${json.role.create_time}
+                   
+                </td>
+            </tr>
+            <tr><td colspan='4'>量表名称：${json.scale.title}</td></tr>
+            <tr><td colspan='4'>得分：${json.total_score}</td></tr>
+        `)
+        for(var i=0;i<json.groups.length;i++){
+            $('#ass_export').append(`
+                <tr>
+                    <td colspan='4'>分组：${json.groups[i].group.title}&nbsp;(得分：${json.groups[i].score})</td>
+                </tr>
+            `)
+            for(var j=0;j<json.groups[i].details.length;j++){
+                $('#ass_export').append(`
+                    <tr>
+                        <td>题目：${j+1}</td>
+                        <td>${json.groups[i].details[j].question.content}</td>
+                        <td>选项：${json.groups[i].details[j].my_option.content}</td>
+                        <td>得分：${json.groups[i].details[j].my_option.score}</td>
+                    </tr>
+                `)
+            }
+
+        }
+        $('.ass_export_btn').show()
     }
 
     function scaleTitle(data) {

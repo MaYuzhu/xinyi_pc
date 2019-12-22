@@ -53,11 +53,16 @@ $(function () {
 
                 ,data: dataUser
                 ,cols: [[
-                    {field:'nickname', width:'20%',templet: avatarNickname, title: '昵称'}
-                    ,{field:'full_name', width:'15%' ,templet: fullName,title: '姓名'}
-                    ,{field:'phone', width:'15%', title: '手机'}
-                    ,{field:'email', width:'25%',  title: '邮箱'}  //templet: ZhuangTai,
-                    ,{field:'create_time', width:'25%', title: '创建时间'}
+                    {field:'nickname', templet: avatarNickname, title: '昵称'}
+                    ,{field:'full_name', align:'center', width:100,templet: fullName,title: '姓名'}
+                    ,{field:'phone', align:'center', width:180, title: '手机'}
+                    ,{field:'age', align:'center', width:80, title: '年龄'}
+                    ,{field:'degree', align:'center', width:120, title: '学历'}
+                    ,{field:'sex', align:'center', width:80,templet: getSex, title: '性别'}
+                    ,{field:'occupation', align:'center', width:120, title: '职业'}
+                    ,{field:'other', align:'center', width:120,title: '其他'}
+                    //,{field:'email', width:'25%',  title: '邮箱'}  //templet: ZhuangTai,
+                    ,{field:'create_time', align:'center', width:220, title: '创建时间'}
                     //,{fixed:'right',field:'priority', width: '15%', toolbar: '#barUser', title: '操作'}
 
                 ]]
@@ -135,6 +140,18 @@ $(function () {
             full_name = `<text>未知</text>`
         }
         return full_name
+    }
+    function getSex(data) {
+        var sex
+        if(data.sex == 1){
+            sex = `<text>男</text>`
+        }else if(data.sex == 2){
+            sex = `<text>女</text>`
+        }else {
+            sex = `<text> </text>`
+        }
+        return sex
+
     }
     function userTheme(json){
         console.log(json)

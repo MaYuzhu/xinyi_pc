@@ -1,7 +1,16 @@
 //全局变量、方法
 
-//var url = 'http://admin.sount.net/api/'
-var url = 'https://api.anlanxinyi.com/admin/'
+var url = 'http://www.sount.net/admin/'            //测试库
+//var url = 'https://api.anlanxinyi.com/admin/'
+$.ajaxSetup({
+    type: 'POST',
+    cache:true,
+    dataType: 'json',
+    contentType: 'application/json',
+    xhrFields:{
+        withCredentials:true
+    },
+})
 
 function getAjax(url, data, async, succFunc, errFunc) {
     $.ajax({
@@ -27,7 +36,7 @@ function getAjax(url, data, async, succFunc, errFunc) {
 }
 
 function errFunc(err) {
-    console.log(err.status);
+    console.log(err);
     if(err.status===500){
         layer.msg('服务器异常，未得到数据')
     }else if(err.status===403){
@@ -37,6 +46,6 @@ function errFunc(err) {
     }else if(err.status===404){
         layer.msg('未找到您要访问到数据')
     }else{
-        layer.msg(err.responseJSON.message);
+        layer.msg('请求失败');
     }
 }
