@@ -631,19 +631,4 @@
 <script src="./js/assessment.js"></script>
 <script src="./js/export.js"></script>
 
-<script>
-    layui.use(['form', 'layedit', 'laydate'], function(){
-        var form = layui.form
-            ,layer = layui.layer
-            ,layedit = layui.layedit
-            ,laydate = layui.laydate;
-        //表单取值
-        layui.$('#LAY-component-form-getval').on('click', function(){
-            var data = form.val('example');
-            alert(JSON.stringify(data));
-        });
-
-    });
-</script>
-
 </html>
