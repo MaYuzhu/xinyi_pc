@@ -56,8 +56,9 @@ $(function () {
                     {field:'full_name',align:'center', width:150, title: '姓名'}
                     ,{field:'phone', align:'center', width:240, title: '手机'}
                     ,{field:'disable', align:'center', width:120, templet: ZhuangTai,  title: '状态'}
-                    ,{field:'create_time', align:'center', width:220, title: '创建时间'}
-                    ,{fixed:'right',field:'priority', align:'center', toolbar: '#barAdmin', title: '操作'}
+                    ,{field:'create_time', align:'center',  title: '创建时间'}
+                    ,{field:'update_time', align:'center',  title: '更新时间'}
+                    ,{fixed:'right',field:'priority', align:'center', width:220, toolbar: '#barAdmin', title: '操作'}
 
                 ]]
                 /*,page: {
@@ -87,18 +88,7 @@ $(function () {
                         layer.close(index);
                     });
                 } else if(obj.event === 'edit'){
-                    layer.prompt({
-                        formType: 0
-                        ,value: data.full_name
-                        ,title: '提示'
-                    }, function(value, index){
-                        var saveData = {
-                            theme_id:data.theme_id,
-                            title:value
-                        }
-                        getAjax(url+'theme/save',saveData,true,adminTheme,errFunc)
-                        layer.close(index);
-                    });
+                    alert('编辑')
                 }
             });
         });
