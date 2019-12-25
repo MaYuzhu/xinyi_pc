@@ -67,7 +67,7 @@ $(function () {
             },
             crossDomain: true,
             success: function(json){
-                console.log(json)
+                //console.log(json)
                 if(json){
                     location.href="./index.html";
                     //window.open("./index.html",'_blank')

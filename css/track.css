@@ -269,3 +269,37 @@
     line-height: 3em;
     text-align: center;
 }
+
+/*增加-修改用户*/
+.admin_add_edit>i, .admin_edit>i{
+    display: block;
+    transform: translate(88px,-38px) rotate(45deg);
+    float: right;
+    cursor: pointer;
+}
+.admin_add_edit .button_add_admin_confirm,.admin_edit  .button_edit_admin_confirm{
+    width: 80px;
+    height: 30px;
+    line-height: 30px;
+}
+.admin_add_edit .button_edit_question .button_add_group_close,.admin_edit .button_edit_question .button_add_group_close{
+    width: 80px;
+    height: 30px;
+    line-height: 30px;
+    padding: 0;
+}
+.admin_add_edit .admin_p,.admin_edit .admin_p{
+    margin-bottom: 20px;
+    font-size: 16px;
+    font-weight: 500;
+}
+.admin_p span{
+    display: inline-block;
+    text-align: right;
+    width: 120px;
+    margin-right: 20px;
+    font-weight: 500;
+    font-size: 16px;
+}
+
+

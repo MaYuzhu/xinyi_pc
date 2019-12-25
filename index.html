@@ -529,6 +529,69 @@
 				</div>
 			</div>
 		</div>
+    <div class="add_admin_wrap" style="display:none">
+        <div class="scale_edit admin_add_edit">
+            <i class="iconfont icon-jia close_add_group"></i>
+            <p class="admin_add_edit">增加用户</p>
+
+            <p class="admin_p">
+                <span>用户姓名:</span>
+                <input type="text" class="full_name" autocomplete="off">
+            </p>
+            <p class="admin_p">
+                <span>手机号:</span>
+                <input type="text" class="phone" autocomplete="off">
+            </p>
+            <p class="admin_p">
+                <span>密码:</span>
+                <input type="password" class="pwd" autocomplete="new-password" name="pwd"
+                       readonly required οnfοcus="this.removeAttribute('readonly');">
+            </p>
+            <p class="admin_p">
+                <span>重复密码:</span>
+                <input type="password" class="pwd_repeat" autocomplete="new-password" name="pwd"
+                       readonly required οnfοcus="this.removeAttribute('readonly');">
+            </p>
+            <div class="button_edit_track button_edit_question">
+                <p class="button_track_confirm button_add_admin_confirm">确定</p>
+                <p class="button_add_group_close">取消</p>
+            </div>
+        </div>
+    </div>
+    <div class="edit_admin_wrap" style="display:none">
+        <div class="scale_edit admin_edit">
+            <i class="iconfont icon-jia close_add_group"></i>
+            <p class="admin_add_edit">修改密码</p>
+
+            <p class="admin_p">
+                <span>用户姓名:</span>
+                <input type="text" disabled class="full_name" autocomplete="off">
+            </p>
+            <p class="admin_p">
+                <span>手机号:</span>
+                <input type="text" disabled class="phone" autocomplete="off">
+            </p>
+            <p class="admin_p">
+                <span>旧密码:</span>
+                <input type="password" class="old_pwd" autocomplete="new-password" name="pwd"
+                       readonly required οnfοcus="this.removeAttribute('readonly');">
+            </p>
+            <p class="admin_p">
+                <span>新密码:</span>
+                <input type="password" class="pwd" autocomplete="new-password" name="pwd"
+                       readonly required οnfοcus="this.removeAttribute('readonly');">
+            </p>
+            <p class="admin_p">
+                <span>重复新密码:</span>
+                <input type="password" class="pwd_repeat" autocomplete="new-password" name="pwd"
+                       readonly required οnfοcus="this.removeAttribute('readonly');">
+            </p>
+            <div class="button_edit_track button_edit_question">
+                <p class="button_track_confirm button_edit_admin_confirm">确定</p>
+                <p class="button_add_group_close">取消</p>
+            </div>
+        </div>
+    </div>
 </body>
 
 <script type="text/html" id="barDemo">
@@ -589,14 +652,18 @@
 </script>
 <script type="text/html" id="barAdmin">
     <div id="barAdminEdit">
-        {{#  if(d.disable == true){ }}
-                     <a class="layui-btn layui-btn-xs del" lay-event="del">启用</a>
-                 {{#  } }}
-                 {{#  if(d.disable == false){ }}
-                     <a class="layui-btn layui-btn-xs del" lay-event="del">禁用</a>
-                 {{#  } }}
-        <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-        <!--<a class="layui-btn layui-btn-xs" lay-event="details">详情</a>-->
+         {{#  if(d.disable == true){ }}
+             <a class="layui-btn layui-btn-xs del" lay-event="del">启用</a>
+         {{#  } }}
+         {{#  if(d.disable == false){ }}
+             <a class="layui-btn layui-btn-xs del" lay-event="del">禁用</a>
+         {{#  } }}
+         <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+         <a class="layui-btn layui-btn-xs" lay-event="pwd">修改密码</a>
+         <a class="layui-btn layui-btn-xs" lay-event="delete">删除</a>
+        <!--{{#  if(d.user_id == user_id){ }}
+             <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+        {{#  } }}-->
     </div>
 
 </script>

@@ -197,12 +197,20 @@ $(function () {
     }
 
     function recordExport(json) {
-        console.log(json)
+        //console.log(json)
         $('#ass_export').append(`
             <tr>
                 <td colspan='4' style="border: none;text-align: left;">
-                    角色：${json.role.title}
-                    &nbsp;&nbsp;&nbsp;&nbsp;时间：${json.role.create_time}
+                姓名：${json.member.full_name}&nbsp;&nbsp;&nbsp;&nbsp;
+                昵称：${json.member.nickname}&nbsp;&nbsp;&nbsp;&nbsp;
+                手机：${json.member.phone}&nbsp;&nbsp;&nbsp;&nbsp; 
+                </td>
+            </tr>
+            <tr>
+                <td colspan='4' style="border: none;text-align: left;">
+                
+                角色：${json.role.title}&nbsp;&nbsp;&nbsp;&nbsp;
+                时间：${json.role.create_time}
                    
                 </td>
             </tr>
