@@ -26,7 +26,7 @@ $(function () {
         $('.assessment .input_sousuo input').val('')
         pageAss()
 
-        $(".ass_export_btn").click(function(){
+        $(".ass_export_btn").unbind().click(function(){
             $("#ass_export").table2excel({
                 exclude: ".noExl",
                 name: "测评报表",
@@ -78,7 +78,9 @@ $(function () {
                 ,data: dataAss
                 ,cols: [[
                     {field:'scale', templet: scaleTitle, title: '量表名称'}
-                    ,{field:'total_score', align:'center', width:120, title: '得分'}
+                    ,{field:'theme', templet: scaleName, align:'center', width:120, title: '用户名'}
+                    ,{field:'phone', templet: scalePhone, align:'center', width:140, title: '手机号'}
+                    ,{field:'total_score', align:'center', width:100, title: '得分'}
                     //,{field:'record_id', width:'15%', title: 'id'}
                     ,{field:'complete_time', align:'center', width:220,  title: '完成时间'}  //templet: ZhuangTai,
                     ,{field:'create_time', align:'center', width:220, title: '创建时间'}
@@ -201,9 +203,9 @@ $(function () {
         $('#ass_export').append(`
             <tr>
                 <td colspan='4' style="border: none;text-align: left;">
-                姓名：${json.member.full_name}&nbsp;&nbsp;&nbsp;&nbsp;
-                昵称：${json.member.nickname}&nbsp;&nbsp;&nbsp;&nbsp;
-                手机：${json.member.phone}&nbsp;&nbsp;&nbsp;&nbsp; 
+                姓名：${json.member.full_name?json.member.full_name:''}&nbsp;&nbsp;&nbsp;&nbsp;
+                昵称：${json.member.nickname?json.member.nickname:''}&nbsp;&nbsp;&nbsp;&nbsp;
+                手机：${json.member.phone?json.member.phone:''}&nbsp;&nbsp;&nbsp;&nbsp; 
                 </td>
             </tr>
             <tr>
@@ -291,4 +293,43 @@ $(function () {
         })
 
     }
+
+    function scaleName(data) {
+        var name = ''
+        getAjax(url+'record/get',{record_id:data.record_id},false,function (json) {
+            name = json.member.nickname
+        },errFunc)
+        return name
+    }
+
+    function scalePhone(data) {
+        var phone = ''
+        getAjax(url+'record/get',{record_id:data.record_id},false,function (json) {
+            phone = json.member.phone
+        },errFunc)
+        return phone
+    }
+
+    function getSomething(data) {
+        var r = 0;
+        var phone = ''
+        return new Promise(function(resolve) {
+            setTimeout(function() {
+                r = 2;
+                resolve(r);
+            }, 1000);
+            /*getAjax(url+'record/get',{record_id:data.record_id},true,function (json) {
+                phone = json.member.phone,
+                resolve(phone);
+            },errFunc)*/
+        });
+    }
+
+    async function compute(data) {
+        var x = await getSomething(data);
+        console.log(x);
+        console.log(typeof x);
+        return x
+    }
+    //compute();
 })

@@ -8,7 +8,7 @@ $(function () {
         $('.export_content_details').hide()
         $('.loading_data_p').hide()
 
-        $(".track_export_btn").click(function(){
+        $(".track_export_btn").unbind().click(function(){
             $("#track_export").table2excel({
                 exclude: ".noExl",
                 name: "打卡报表",

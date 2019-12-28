@@ -511,7 +511,7 @@ $(function () {
 
     function getGroupList(json) {
         groupDataArr = json.results
-        console.log(groupDataArr)
+        //console.log(groupDataArr)
         for(let i=0;i<groupDataArr.length;i++){
             $('.select_item').append(`
                 <option value=${groupDataArr[i].group_id}>${groupDataArr[i].title}</option>
@@ -585,6 +585,12 @@ $(function () {
                     if(json){
                         //console.log(json)
                         $(`.group_add_options .li${index}`).remove()
+                        var questionListData = {
+                            paging:false,
+                            scale_id:scale_id,
+                            with_option:true
+                        }
+                        getAjax(url+'question/list',questionListData,true,setQuestionList,errFunc)
                     }
                 },errFunc)
             })
@@ -593,7 +599,13 @@ $(function () {
     }
 
     function groupSave(json) {
-      //console.log(json)
+        //console.log(json)
+        var questionListData = {
+            paging:false,
+            scale_id:scale_id,
+            with_option:true
+        }
+        getAjax(url+'question/list',questionListData,true,setQuestionList,errFunc)
     }
 
     //禁用、启用量表
