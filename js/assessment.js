@@ -295,18 +295,13 @@ $(function () {
     }
 
     function scaleName(data) {
-        var name = ''
-        getAjax(url+'record/get',{record_id:data.record_id},false,function (json) {
-            name = json.member.nickname
-        },errFunc)
+    	//console.log(data)
+        var name = data.member.nickname?data.member.nickname:''
         return name
     }
 
     function scalePhone(data) {
-        var phone = ''
-        getAjax(url+'record/get',{record_id:data.record_id},false,function (json) {
-            phone = json.member.phone
-        },errFunc)
+        var phone = data.member.phone?data.member.phone:''
         return phone
     }
 

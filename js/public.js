@@ -1,5 +1,4 @@
 //全局变量、方法
-
 var url = 'http://www.sount.net/admin/'            //测试库
 //var url = 'https://api.anlanxinyi.com/admin/'
 $.ajaxSetup({
