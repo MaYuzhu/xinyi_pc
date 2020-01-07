@@ -372,7 +372,7 @@ html, body{
 }
 /*编辑量表*/
 .scale_edit_wrap,.scale_details_edit_wrap,.track_details_edit_wrap,
-.scale_add_wrap,.add_group_wrap,.add_admin_wrap,.edit_admin_wrap{
+.scale_add_wrap,.add_group_wrap,.add_admin_wrap,.edit_admin_wrap,.save_review_wrap{
     width: 100%;
     min-height: 100%;
     position: absolute;
@@ -381,7 +381,7 @@ html, body{
     top:0;
     /*bottom: 0;*/
     background: rgba(0, 0, 0, 0.2);
-    display: none;
+    /*display: none;*/
     z-index: 999;
 }
 .scale_edit{

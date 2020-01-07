@@ -10,13 +10,18 @@ $(function () {
     var totalSize = 0
     var member_id = ''
     var options_length_num = 0
+	  var record_id = ''
+    var TrackList = []
     $('.left_clock').click(function () {
+
+		    $('.clock_history').hide()
+		    $('.clock_content').show()
+
         $('.search_add_clockin').hide()
         $('.clockin .input_sousuo input').val('')
         pageClock()
         //getAjax(url+'track-scale/list',{paging:false},true,getClockList,errFunc)
     })
-
 
     function pageClock() {
         //
@@ -64,7 +69,7 @@ $(function () {
                       //templet: ZhuangTai, fixed:'left',
                     ,{field:'create_time', align:'center', width:220, title: '创建时间'}
                     ,{field:'update_time', align:'center', width:220, title: '更新时间'}
-                    ,{fixed:'right',field:'priority',align:'center', width:120, toolbar: '#barClock', title: '操作'}
+                    ,{fixed:'right',field:'priority',align:'center', width:180, toolbar: '#barClock', title: '操作'}
 
                 ]]
                 /*,page: {
@@ -99,8 +104,17 @@ $(function () {
                             </li>`)
                         }
                     },errFunc)
-                } else if(obj.event === 'edit'){
-
+                } else if(obj.event === 'history'){
+										$('.clock_history').show()
+	                  $('.clock_content').hide()
+	                  $('.clock_history_nickname').text('')
+	                  $('.clock_history_phone').text('')
+	                  //console.log(data)
+	                  getAjax(url+'track-record/list',{member_id:data.member_id},true,getTrackListMember,errFunc)
+	                  getAjax(url+'member/get',{member_id:data.member_id},true,function (json) {
+			                  $('.clock_history_nickname').text(json.nickname)
+			                  $('.clock_history_phone').text(json.phone)
+	                  },errFunc)
 
                 } else if(obj.event === 'publish'){
                     layer.confirm(`确定要${data.publish?' ':'发布'}吗？`,{btn: ['确定', '取消'],title:"提示"}, function(index){
@@ -203,6 +217,73 @@ $(function () {
         $('.track_details_show_wrap').hide()
     })
 
+    $('.save_review_wrap .close_add_group,.save_review_wrap .button_add_group_close').click(function () {
+		  $('.save_review_wrap').hide()
+	  })
+
+		$('.back_track_content').click(function () {
+				$('.left_clock').click()
+		})
+
+	  $('.button_save_review_confirm').click(function () {
+	      var expert_review = $('#save_review_text').val()
+        if(!expert_review){
+	        layer.msg('请填写内容！')
+          return
+        }
+        getAjax(url+'track-record/save',{record_id:record_id,expert_review:expert_review},true,function (json) {
+            if(json){
+                layer.msg('回复成功！')
+	              $('.save_review_wrap').hide()
+            }
+        },errFunc)
+	  })
+
+    $('.ping_select').change(function () {
+        //console.log($('.ping_select').val())
+        //console.log(TrackList)
+        if($('.ping_select').val()=='false'){
+          var yesTrackList = TrackList.filter(function (item) {
+            return item.review == true
+          })
+	        $('.clock_history_list').empty()
+          console.log(yesTrackList)
+	        for(var i=0;i<yesTrackList.length;i++){
+		        $('.clock_history_list').append(`<li>
+																<p class="clock_history_content">${yesTrackList[i].summary}</p>
+																<p class="clock_history_date">${yesTrackList[i].update_time}</p>
+																<p class="huifu" value=${yesTrackList[i].record_id}>回复</p>
+														</li>`)
+	        }
+	        saveTrack()
+        }else if($('.ping_select').val()=='true'){
+	        var noTrackList = TrackList.filter(function (item) {
+		        return item.review == false
+	        })
+	        console.log(noTrackList)
+	        $('.clock_history_list').empty()
+	        for(var i=0;i<noTrackList.length;i++){
+		        $('.clock_history_list').append(`<li>
+																<p class="clock_history_content">${noTrackList[i].summary}</p>
+																<p class="clock_history_date">${noTrackList[i].update_time}</p>
+																<p class="huifu" value=${noTrackList[i].record_id}>回复</p>
+														</li>`)
+	        }
+	        saveTrack()
+        }else if($('.ping_select').val()=='-1'){
+	        console.log(TrackList)
+	        $('.clock_history_list').empty()
+	        for(var i=0;i<TrackList.length;i++){
+		        $('.clock_history_list').append(`<li>
+																<p class="clock_history_content">${TrackList[i].summary}</p>
+																<p class="clock_history_date">${TrackList[i].update_time}</p>
+																<p class="huifu" value=${TrackList[i].record_id}>回复</p>
+														</li>`)
+	        }
+	        saveTrack()
+        }
+    })
+
     function delete_option() {
         $('.delete_option').unbind().click(function () {
             var index = $(this).attr('value')*1
@@ -215,6 +296,52 @@ $(function () {
              `)
             delete_option()
         })
+    }
+
+    function getTrackListMember(json) {
+				//console.log(json)
+	      $('.clock_history_list').empty()
+	      TrackList = json.results
+	      for(var i=0;i<json.results.length;i++){
+		      $('.clock_history_list').append(`<li>
+																<p class="clock_history_content">${json.results[i].summary}</p>
+																<p class="clock_history_date">${json.results[i].update_time}</p>
+																<p class="huifu" value=${json.results[i].record_id}>回复</p>
+														</li>`)
+	      }
+				saveTrack()
+    }
+
+    function saveTrack() {
+	      $('.huifu').each(function () {
+		        $(this).unbind().click(function () {
+			          //alert($(this).attr('value'))
+								$('.save_review_wrap').show()
+			          record_id = $(this).attr('value')
+				        $('.save_review_ul').empty()
+                getAjax(url+'track-record/get',{record_id:$(this).attr('value')},true,function (json) {
+                    console.log(json)
+                    for(var i=0;i<json.details.length;i++){
+	                      $('.save_review_ul').append(`<li class=xingxing_li${i}>
+                            <span style="display:inline-block;width:120px;text-align:right">${json.details[i].title}</span>
+                            <div style="margin-left: 10px"></div>
+                        </li>`)
+                        for(var j=0;j<json.details[i].my_level;j++){
+	                          $(`.xingxing_li${i} div`).append('<img src="./img/xingxing.png" alt="">')
+                        }
+
+                    }
+                    $('.save_summary').empty().text(json.summary)
+                    $('#save_review_text').empty()
+                    if(json.expert_review){
+	                      $('#save_review_text').val(json.expert_review)
+                    }else {
+	                      $('#save_review_text').val('')
+                    }
+                },errFunc)
+
+		        })
+	      })
     }
 
 })

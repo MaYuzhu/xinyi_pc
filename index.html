@@ -263,6 +263,33 @@
                         <table class="layui-hide" id="clock" lay-filter="clock"></table>
                         <div id="clock_page"></div>
                     </div>
+										<div style="display:none" class="box_content clock_history">
+												<p class="back_track_content">
+													<i class="iconfont icon-icon-arrow-left2"></i>
+													<span>返回列表</span>
+												</p>
+												<p>
+													昵称：<span class="clock_history_nickname" style="margin-right:20px;"></span>
+													手机：<span class="clock_history_phone"></span>
+												</p>
+												<!--<form class="layui-form layui-form-pane" action="">-->
+												<div class="layui-input-block ping_div">
+														<select class="ping_select" name="ping_select" lay-filter="aihao">
+																<option value="-1">全部</option>
+                                <option value='true'>未评</option>
+																<option value='false'>已评</option>
+
+														</select>
+												</div>
+												<!--</form>-->
+
+												<ul class="clock_history_list">
+														<li>
+																<p class="clock_history_content"></p>
+																<p class="clock_history_date"></p>
+														</li>
+												</ul>
+										</div>
                 </div>
                 <div class="box export">
                     <h2>打卡报表</h2>
@@ -415,7 +442,7 @@
         </div>
     </div>
 
-    <div class="scale_edit_wrap">
+    <div class="scale_edit_wrap" style="display: none">
         <div class="scale_edit">
             <p>修改量表</p>
             <div><p>量表名称</p><input class="scale_edit_title" type="text"></div>
@@ -592,6 +619,25 @@
             </div>
         </div>
     </div>
+		<div class="save_review_wrap" style="display:none">
+				<div class="scale_edit save_review">
+						<i class="iconfont icon-jia close_add_group"></i>
+						<p class="save_review_p">表现评价</p>
+						<ul class="save_review_ul" style="margin:10px 0">
+
+						</ul>
+						<p class="save_review_p">个人总结</p>
+						<div class="save_summary">
+
+						</div>
+						<p class="save_review_p">打卡回复</p>
+						<textarea name="" id="save_review_text" cols="110" rows="6" style="margin-top:5px;"></textarea>
+						<div class="button_edit_track button_save_review">
+								<p class="button_track_confirm button_save_review_confirm">确定</p>
+								<p class="button_add_group_close">取消</p>
+						</div>
+				</div>
+		</div>
 </body>
 
 <script type="text/html" id="barDemo">
@@ -669,10 +715,11 @@
 </script>
 <script type="text/html" id="barClock">
     <div id="barClockEdit">
-        <a class="layui-btn layui-btn-xs" lay-event="details">详情</a>
+        <a class="layui-btn layui-btn-xs" lay-event="details">关键字</a>
+				<a class="layui-btn layui-btn-xs" lay-event="history">记录</a>
         {{#  if(d.publish == false){ }}
              <a class="layui-btn layui-btn-xs publish" lay-event="publish">发布</a>
-<!--             <a class="layui-btn layui-btn-xs edit" lay-event="edit">编辑</a>-->
+			<!--<a class="layui-btn layui-btn-xs edit" lay-event="edit">编辑</a>-->
          {{#  } }}
     </div>
 </script>
