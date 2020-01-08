@@ -9,6 +9,7 @@ $(function () {
     }
     var totalSize = 0
     var member_id = ''
+    var member_id_record = ''
     var options_length_num = 0
 	  var record_id = ''
     var TrackList = []
@@ -110,7 +111,8 @@ $(function () {
 	                  $('.clock_history_nickname').text('')
 	                  $('.clock_history_phone').text('')
 	                  //console.log(data)
-	                  getAjax(url+'track-record/list',{member_id:data.member_id},true,getTrackListMember,errFunc)
+	                  member_id_record = data.member_id
+	                  getAjax(url+'track-record/list',{member_id:data.member_id,review:false},true,getTrackListMember,errFunc)
 	                  getAjax(url+'member/get',{member_id:data.member_id},true,function (json) {
 			                  $('.clock_history_nickname').text(json.nickname)
 			                  $('.clock_history_phone').text(json.phone)
@@ -235,6 +237,11 @@ $(function () {
             if(json){
                 layer.msg('回复成功！')
 	              $('.save_review_wrap').hide()
+                getAjax(url+'track-record/list',{member_id:member_id_record,review:false},true,getTrackListMember,errFunc)
+                getAjax(url+'member/get',{member_id:member_id_record},true,function (json) {
+                    $('.clock_history_nickname').text(json.nickname)
+                    $('.clock_history_phone').text(json.phone)
+                },errFunc)
             }
         },errFunc)
 	  })
@@ -243,44 +250,11 @@ $(function () {
         //console.log($('.ping_select').val())
         //console.log(TrackList)
         if($('.ping_select').val()=='false'){
-          var yesTrackList = TrackList.filter(function (item) {
-            return item.review == true
-          })
-	        $('.clock_history_list').empty()
-          console.log(yesTrackList)
-	        for(var i=0;i<yesTrackList.length;i++){
-		        $('.clock_history_list').append(`<li>
-																<p class="clock_history_content">${yesTrackList[i].summary}</p>
-																<p class="clock_history_date">${yesTrackList[i].update_time}</p>
-																<p class="huifu" value=${yesTrackList[i].record_id}>回复</p>
-														</li>`)
-	        }
-	        saveTrack()
+	        getAjax(url+'track-record/list',{member_id:member_id_record,review:true},true,getTrackListMember,errFunc)
         }else if($('.ping_select').val()=='true'){
-	        var noTrackList = TrackList.filter(function (item) {
-		        return item.review == false
-	        })
-	        console.log(noTrackList)
-	        $('.clock_history_list').empty()
-	        for(var i=0;i<noTrackList.length;i++){
-		        $('.clock_history_list').append(`<li>
-																<p class="clock_history_content">${noTrackList[i].summary}</p>
-																<p class="clock_history_date">${noTrackList[i].update_time}</p>
-																<p class="huifu" value=${noTrackList[i].record_id}>回复</p>
-														</li>`)
-	        }
-	        saveTrack()
+	        getAjax(url+'track-record/list',{member_id:member_id_record,review:false},true,getTrackListMember,errFunc)
         }else if($('.ping_select').val()=='-1'){
-	        console.log(TrackList)
-	        $('.clock_history_list').empty()
-	        for(var i=0;i<TrackList.length;i++){
-		        $('.clock_history_list').append(`<li>
-																<p class="clock_history_content">${TrackList[i].summary}</p>
-																<p class="clock_history_date">${TrackList[i].update_time}</p>
-																<p class="huifu" value=${TrackList[i].record_id}>回复</p>
-														</li>`)
-	        }
-	        saveTrack()
+	        getAjax(url+'track-record/list',{member_id:member_id_record,review:null},true,getTrackListMember,errFunc)
         }
     })
 
@@ -299,7 +273,7 @@ $(function () {
     }
 
     function getTrackListMember(json) {
-				//console.log(json)
+				console.log(json)
 	      $('.clock_history_list').empty()
 	      TrackList = json.results
 	      for(var i=0;i<json.results.length;i++){
