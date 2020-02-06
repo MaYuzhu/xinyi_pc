@@ -1,6 +1,6 @@
 //全局变量、方法
-var url = 'http://www.sount.net/admin/'            //测试库
-//var url = 'https://api.anlanxinyi.com/admin/'
+//var url = 'http://www.sount.net/admin/'            //测试库
+var url = 'https://api.anlanxinyi.com/admin/'
 $.ajaxSetup({
     type: 'POST',
     cache:true,
@@ -45,6 +45,6 @@ function errFunc(err) {
     }else if(err.status===404){
         layer.msg('未找到您要访问到数据')
     }else{
-        layer.msg('请求失败');
+        layer.msg('暂无数据');
     }
 }

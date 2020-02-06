@@ -11,8 +11,9 @@ $(function () {
         $(".track_export_btn").unbind().click(function(){
             $("#track_export").table2excel({
                 exclude: ".noExl",
-                name: "打卡报表",
-                filename: "打卡报表",
+                name: "打卡报表" + new Date().getTime(),
+                filename: "打卡报表" + new Date().getTime(),
+	              fileext: ".xls",
                 exclude_img: true,
                 exclude_links: true,
                 exclude_inputs: true

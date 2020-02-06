@@ -29,8 +29,9 @@ $(function () {
         $(".ass_export_btn").unbind().click(function(){
             $("#ass_export").table2excel({
                 exclude: ".noExl",
-                name: "测评报表",
-                filename: "测评报表",
+                name: "测评报表" + new Date().getTime(),
+                filename: "测评报表" + new Date().getTime(),
+	              fileext: ".xls",
                 exclude_img: true,
                 exclude_links: true,
                 exclude_inputs: true
@@ -120,7 +121,12 @@ $(function () {
 
     //返回量表列表
     $('.assessment .back_ass_content').click(function () {
-        $('.left_ass').click()
+        //$('.left_ass').click()
+		    $('.assessment_content').show()
+		    $('.assessment_details').hide()
+		    $('.assessment_export').hide()
+		    $('.ass_export_btn').hide()
+	      pageAss()
     })
 
     $('.search_ass').click(function () {

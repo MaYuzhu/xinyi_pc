@@ -279,7 +279,7 @@ $(function () {
 	      for(var i=0;i<json.results.length;i++){
 		      $('.clock_history_list').append(`<li>
 																<p class="clock_history_content">${json.results[i].summary}</p>
-																<p class="clock_history_date">${json.results[i].update_time}</p>
+																<p class="clock_history_date">${json.results[i].create_time}</p>
 																<p class="huifu" value=${json.results[i].record_id}>回复</p>
 														</li>`)
 	      }

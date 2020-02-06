@@ -83,7 +83,7 @@
 .track_details_options_edit>:nth-child(2):hover{
     background: #f9bf53;
 }
-.track_details_edit>i{
+.track_details_edit>i, .member_details_edit>i{
     display: block;
     transform: translate(88px,-38px) rotate(45deg);
     float: right;

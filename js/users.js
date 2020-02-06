@@ -63,7 +63,7 @@ $(function () {
                     ,{field:'other', align:'center', width:120,title: '其他'}
                     //,{field:'email', width:'25%',  title: '邮箱'}  //templet: ZhuangTai,
                     ,{field:'create_time', align:'center', width:220, title: '创建时间'}
-                    //,{fixed:'right',field:'priority', width: '15%', toolbar: '#barUser', title: '操作'}
+                    ,{field:'priority', width: '15%', toolbar: '#barMember', title: '查看'}
 
                 ]]
                 /*,page: {
@@ -71,7 +71,7 @@ $(function () {
                     ,theme: '#e6a825'
                 },*/
                 ,page: false,
-                //skin: 'row', //表格风格
+                //skin: 'row', //表格风格  fixed:'right',
                 //even: true, //隔行背景
                 //limits: [5, 10, 15], //显示
                 limit: 10 //每页默认显示的数量
@@ -93,18 +93,34 @@ $(function () {
                         layer.close(index);
                     });
                 } else if(obj.event === 'edit'){
-                    layer.prompt({
-                        formType: 0
-                        ,value: data.title
-                        ,title: ''
-                    }, function(value, index){
-                        var saveData = {
-                            theme_id:data.theme_id,
-                            title:value
-                        }
-                        getAjax(url+'theme/save',saveData,true,userTheme,errFunc)
-                        layer.close(index);
-                    });
+	                layer.prompt({
+		                formType: 0
+		                ,value: data.title
+		                ,title: ''
+	                }, function(value, index){
+		                var saveData = {
+			                theme_id:data.theme_id,
+			                title:value
+		                }
+		                getAjax(url+'theme/save',saveData,true,userTheme,errFunc)
+		                layer.close(index);
+	                });
+                }else if(obj.event === 'details'){
+	                //console.log(data.member_id)
+                  $('.member_wrap').show()
+	                $('.member_group_ul').empty()
+	                getAjax(url+'/member-group/get',{member_id:data.member_id},true,function (json) {
+		                console.log(json.members)
+		                $('.member_group_ul').empty()
+                    for(var i=0;i<json.members.length;i++){
+	                    $('.member_group_ul').append(`
+                        <li>
+                            <p><img src=${json.members[i].portrait} alt=""></p>
+                            <p>${json.members[i].nickname}</p>
+                            <p>${json.members[i].phone}</p>
+                        </li>`)
+                    }
+	                },errFunc)
                 }
             });
         });
@@ -114,6 +130,10 @@ $(function () {
         var phone = $('.users .input_sousuo input').val()
 
         getAjax(url+'member/search',{phone:phone},true,getUsersList,errFunc)
+    })
+
+    $('.member_close').click(function () {
+      $('.member_wrap').hide()
     })
 
     function avatarNickname(data) {
