@@ -7,7 +7,16 @@ $(function () {
         },
         paging:true
     }
+    var getClockHistoryData = {
+      page:{
+        number:1,
+        size:10
+      },
+      paging:true,
+	    review:null
+    }
     var totalSize = 0
+	  var totalSizeHistory = 0
     var member_id = ''
     var member_id_record = ''
     var options_length_num = 0
@@ -112,7 +121,11 @@ $(function () {
 	                  $('.clock_history_phone').text('')
 	                  //console.log(data)
 	                  member_id_record = data.member_id
-	                  getAjax(url+'track-record/list',{member_id:data.member_id,review:false},true,getTrackListMember,errFunc)
+	                  getClockHistoryData.member_id = data.member_id
+	                  getClockHistoryData.review = false
+	                  $(".ping_select").val("true");
+	                  pageClockHistory()
+	                  //getAjax(url+'track-record/list',getClockHistoryData,true,getTrackListMember,errFunc)
 	                  getAjax(url+'member/get',{member_id:data.member_id},true,function (json) {
 			                  $('.clock_history_nickname').text(json.nickname)
 			                  $('.clock_history_phone').text(json.phone)
@@ -137,6 +150,35 @@ $(function () {
         });
 
     }
+
+	function pageClockHistory() {
+		//
+		getAjax(url+'track-record/list',getClockHistoryData,true,function (json) {
+		    console.log(json)
+			totalSizeHistory = json.total_size
+			layui.use(['laypage', 'layer'], function(){
+				var laypage = layui.laypage
+					,layer = layui.layer;
+				//自定义首页、尾页、上一页、下一页文本
+				laypage.render({
+					elem: 'clock_page_history'
+					,theme: '#e6a825'
+					,count: totalSizeHistory
+					,limit: getClockHistoryData.page.size
+					//,first: '首页'
+					//,last: '尾页'
+					,prev: '<em><i class="iconfont icon-icon-arrow-left2"></i></em>'
+					,next: '<em><i class="iconfont icon-icon-arrow-right2"></i></em>'
+					,jump: function (obj) {
+						//console.log(obj.curr)
+						getClockHistoryData.page.number = obj.curr
+						getAjax(url+'track-record/list',getClockHistoryData,true,getTrackListMember,errFunc)
+					}
+				});
+			});
+		},errFunc)
+
+	}
 
     $('.search_clockin').click(function () {
         var phone = $('.clockin .input_sousuo input').val().trim()
@@ -250,11 +292,14 @@ $(function () {
         //console.log($('.ping_select').val())
         //console.log(TrackList)
         if($('.ping_select').val()=='false'){
-	        getAjax(url+'track-record/list',{member_id:member_id_record,review:true},true,getTrackListMember,errFunc)
+	        getClockHistoryData.review = true
+	        pageClockHistory()
         }else if($('.ping_select').val()=='true'){
-	        getAjax(url+'track-record/list',{member_id:member_id_record,review:false},true,getTrackListMember,errFunc)
+	        getClockHistoryData.review = false
+	        pageClockHistory()
         }else if($('.ping_select').val()=='-1'){
-	        getAjax(url+'track-record/list',{member_id:member_id_record,review:null},true,getTrackListMember,errFunc)
+	        getClockHistoryData.review = null
+	        pageClockHistory()
         }
     })
 
@@ -273,7 +318,7 @@ $(function () {
     }
 
     function getTrackListMember(json) {
-				console.log(json)
+				//console.log(json)
 	      $('.clock_history_list').empty()
 	      TrackList = json.results
 	      for(var i=0;i<json.results.length;i++){
